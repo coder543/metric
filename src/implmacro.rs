@@ -1,3 +1,26 @@
+macro_rules! impl_partial_ord {
+    ($impl_type:tt) => {
+        impl<T> PartialEq<T> for $impl_type
+            where T: Copy + Into<$impl_type>
+        {
+            fn eq(&self, other: &T) -> bool {
+                let other_t: T = *other;
+                let other: Self = other_t.into();
+                self.0.eq(&other.0)
+            }
+        }
+        impl<T> PartialOrd<T> for $impl_type
+            where T: Copy + Into<$impl_type>
+        {
+            fn partial_cmp(&self, other: &T) -> Option<std::cmp::Ordering> {
+                let other_t: T = *other;
+                let other: Self = other_t.into();
+                self.0.partial_cmp(&other.0)
+            }
+        }
+    }
+}
+
 macro_rules! impl_add {
     ($impl_type:tt) => {
         impl<T> std::ops::Add<T> for $impl_type
@@ -127,6 +150,11 @@ macro_rules! impl_from {
     ($from_type:tt => $impl_type:tt, $conversion:expr) => {
         impl From<$from_type> for $impl_type {
             fn from(f: $from_type) -> Self {
+                $impl_type($conversion(f.0))
+            }
+        }
+        impl<'a> From<&'a $from_type> for $impl_type {
+            fn from(f: &'a $from_type) -> Self {
                 $impl_type($conversion(f.0))
             }
         }
