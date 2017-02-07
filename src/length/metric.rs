@@ -49,9 +49,9 @@ impl_scalar_ops!(Centimeter);
 impl_unit_debug!(Centimeter => "{}cm");
 impl_partial_ord!(Centimeter);
 
-impl_from!(Kilometer  => Centimeter, |km| km * 100_000.);
-impl_from!(Meter      => Centimeter,  |m|  m * 100.);
-impl_from!(Millimeter => Centimeter, |mm| mm / 10.);
+impl_from!(Kilometer  => Centimeter,   |km|   km * 100_000.);
+impl_from!(Meter      => Centimeter,    |m|    m * 100.);
+impl_from!(Millimeter => Centimeter,   |mm|   mm / 10.);
 impl_from!(Inch       => Centimeter, |inch| inch *  2.54);
 impl_from!(Foot       => Centimeter, |foot| foot *  30.48);
 impl_from!(Yard       => Centimeter, |yard| yard *  91.44);
@@ -67,9 +67,9 @@ impl_scalar_ops!(Millimeter);
 impl_unit_debug!(Millimeter => "{}mm");
 impl_partial_ord!(Millimeter);
 
-impl_from!(Kilometer  => Millimeter, |km| km * 1_000_000.);
-impl_from!(Meter      => Millimeter,  |m|  m * 1000.);
-impl_from!(Centimeter => Millimeter, |cm| cm * 10.);
+impl_from!(Kilometer  => Millimeter,   |km|   km * 1_000_000.);
+impl_from!(Meter      => Millimeter,    |m|    m * 1000.);
+impl_from!(Centimeter => Millimeter,   |cm|   cm * 10.);
 impl_from!(Inch       => Millimeter, |inch| inch *  25.4);
 impl_from!(Foot       => Millimeter, |foot| foot *  304.8);
 impl_from!(Yard       => Millimeter, |yard| yard *  914.4);
