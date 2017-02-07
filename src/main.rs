@@ -12,6 +12,10 @@ use temperature::*;
 pub mod length;
 use length::*;
 
+pub mod time;
+pub mod mass;
+pub mod electrical;
+
 /// will determine whether a given temperature is in danger of
 /// reaching the freezing point of water
 pub fn danger_of_freezing<T>(temp: T) -> bool
