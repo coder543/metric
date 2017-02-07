@@ -1,6 +1,6 @@
 //! This crate is currently a binary crate, but it will soon switch to a library crate.
 
-#![warn(unused_results, missing_docs, unused_extern_crates)]
+#![warn(unused_results, unused_extern_crates)]
 #![deny(future_incompatible,)]
 
 #[macro_use]
@@ -31,7 +31,6 @@ fn main() {
              outside_temperature,
              danger);
 
-    let total_length = Meter(3.0) + Inch(42.0);
-
+    let total_length = Centimeter(37.2) + Inch(42.0);
     println!("{:?}", total_length);
 }

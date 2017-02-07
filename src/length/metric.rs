@@ -7,6 +7,7 @@ use imperial::*;
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
 pub struct Meter(pub f64);
+pub type Meters = Meter;
 
 impl_basic_ops!(Meter);
 impl_scalar_ops!(Meter);
@@ -23,6 +24,7 @@ impl_from!(Mile       => Meter, |mile| mile * 1609.34);
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
 pub struct Kilometer(pub f64);
+pub type Kilometers = Kilometer;
 
 impl_basic_ops!(Kilometer);
 impl_scalar_ops!(Kilometer);
@@ -40,6 +42,7 @@ impl_from!(Mile       => Kilometer, |mile| mile * 1.60934);
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
 pub struct Centimeter(pub f64);
+pub type Centimeters = Centimeter;
 
 impl_basic_ops!(Centimeter);
 impl_scalar_ops!(Centimeter);
@@ -57,6 +60,7 @@ impl_from!(Mile       => Centimeter, |mile| mile * 160934.);
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
 pub struct Millimeter(pub f64);
+pub type Millimeters = Millimeter;
 
 impl_basic_ops!(Millimeter);
 impl_scalar_ops!(Millimeter);

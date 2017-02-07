@@ -7,6 +7,7 @@ use metric::*;
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
 pub struct Inch(pub f64);
+pub type Inches = Inch;
 
 impl_basic_ops!(Inch);
 impl_scalar_ops!(Inch);
@@ -23,6 +24,7 @@ impl_from!(Mile       => Inch, |mile| mile * 63360.);
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
 pub struct Foot(pub f64);
+pub type Feet = Foot;
 
 impl_basic_ops!(Foot);
 impl_scalar_ops!(Foot);
@@ -40,6 +42,7 @@ impl_from!(Mile       => Foot, |mile| mile * 5280.);
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
 pub struct Yard(pub f64);
+pub type Yards = Yard;
 
 impl_basic_ops!(Yard);
 impl_scalar_ops!(Yard);
@@ -57,6 +60,7 @@ impl_from!(Mile       => Yard, |mile| mile * 1760.);
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
 pub struct Mile(pub f64);
+pub type Miles = Mile;
 
 impl_basic_ops!(Mile);
 impl_scalar_ops!(Mile);
