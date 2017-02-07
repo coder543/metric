@@ -14,7 +14,7 @@ use temperature::*;
 pub fn danger_of_freezing<T>(temp: T) -> bool
     where T: PartialOrd<Celsius>
 {
-    return temp < Celsius(5.0);
+    temp < Celsius(5.0)
 }
 
 fn main() {

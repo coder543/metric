@@ -30,7 +30,7 @@ macro_rules! impl_add {
 
             fn add(self, other: T) -> Self::Output {
                 let other: Self = other.into();
-                return $impl_type(self.0 + other.0);
+                $impl_type(self.0 + other.0)
             }
         }
     }
@@ -58,7 +58,7 @@ macro_rules! impl_sub {
 
             fn sub(self, other: T) -> Self::Output {
                 let other: Self = other.into();
-                return $impl_type(self.0 - other.0);
+                $impl_type(self.0 - other.0)
             }
         }
     }
@@ -86,7 +86,7 @@ macro_rules! impl_mul {
 
             fn mul(self, other: T) -> Self::Output {
                 let other: Self = other.into();
-                return $impl_type(self.0 * other.0);
+                $impl_type(self.0 * other.0)
             }
         }
     }
@@ -114,7 +114,7 @@ macro_rules! impl_div {
 
             fn div(self, other: T) -> Self::Output {
                 let other: Self = other.into();
-                return $impl_type(self.0 * other.0);
+                $impl_type(self.0 * other.0)
             }
         }
     }
