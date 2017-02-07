@@ -13,6 +13,7 @@ impl_basic_ops!(Meter);
 impl_scalar_ops!(Meter);
 impl_unit_debug!(Meter => "{}m");
 impl_partial_ord!(Meter);
+
 impl_from!(Kilometer  => Meter,   |km|   km *  1_000.);
 impl_from!(Centimeter => Meter,   |cm|   cm /    100.);
 impl_from!(Millimeter => Meter,   |mm|   mm /  1_000.);
