@@ -1,6 +1,6 @@
 //! Defines the `Celsius` temperature newtype and related trait impls
 
-use std;
+use std::{self, fmt};
 
 use fahrenheit::Fahrenheit;
 use kelvin::Kelvin;

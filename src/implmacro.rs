@@ -114,7 +114,7 @@ macro_rules! impl_div {
 
             fn div(self, other: T) -> Self::Output {
                 let other: Self = other.into();
-                $impl_type(self.0 * other.0)
+                $impl_type(self.0 / other.0)
             }
         }
     }
@@ -127,7 +127,56 @@ macro_rules! impl_divassign {
         {
             fn div_assign(&mut self, other: T) {
                 let other: Self = other.into();
-                self.0 *= other.0;
+                self.0 /= other.0;
+            }
+        }
+    }
+}
+
+
+macro_rules! impl_mul_scalar {
+    ($impl_type:tt) => {
+        impl std::ops::Mul<f64> for $impl_type
+        {
+            type Output = $impl_type;
+
+            fn mul(self, other: f64) -> Self::Output {
+                $impl_type(self.0 * other)
+            }
+        }
+    }
+}
+
+macro_rules! impl_mulassign_scalar {
+    ($impl_type:tt) => {
+        impl std::ops::MulAssign<f64> for $impl_type
+        {
+            fn mul_assign(&mut self, other: f64) {
+                self.0 *= other;
+            }
+        }
+    }
+}
+
+macro_rules! impl_div_scalar {
+    ($impl_type:tt) => {
+        impl std::ops::Div<f64> for $impl_type
+        {
+            type Output = $impl_type;
+
+            fn div(self, other: f64) -> Self::Output {
+                $impl_type(self.0 / other)
+            }
+        }
+    }
+}
+
+macro_rules! impl_divassign_scalar {
+    ($impl_type:tt) => {
+        impl std::ops::DivAssign<f64> for $impl_type
+        {
+            fn div_assign(&mut self, other: f64) {
+                self.0 /= other;
             }
         }
     }
@@ -139,10 +188,15 @@ macro_rules! impl_basic_ops {
         impl_addassign!($impl_type);
         impl_sub!($impl_type);
         impl_subassign!($impl_type);
-        // impl_mul!($impl_type);
-        // impl_mulassign!($impl_type);
-        // impl_div!($impl_type);
-        // impl_divassign!($impl_type);
+    }
+}
+
+macro_rules! impl_scalar_ops {
+    ($impl_type:tt) => {
+        impl_mul_scalar!($impl_type);
+        impl_mulassign_scalar!($impl_type);
+        impl_div_scalar!($impl_type);
+        impl_divassign_scalar!($impl_type);
     }
 }
 
@@ -163,7 +217,6 @@ macro_rules! impl_from {
 
 macro_rules! impl_unit_debug {
     ($impl_type:tt => $unitstr:expr) => {
-        use std::fmt;
         impl fmt::Debug for $impl_type {
             fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
                 write!(f, $unitstr, self.0)

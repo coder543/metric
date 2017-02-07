@@ -9,6 +9,9 @@ mod implmacro;
 pub mod temperature;
 use temperature::*;
 
+pub mod length;
+use length::*;
+
 /// will determine whether a given temperature is in danger of
 /// reaching the freezing point of water
 pub fn danger_of_freezing<T>(temp: T) -> bool
@@ -27,4 +30,8 @@ fn main() {
     println!("{:?} is{} in danger of freezing!",
              outside_temperature,
              danger);
+
+    let total_length = Meter(3.0) + Inch(42.0);
+
+    println!("{:?}", total_length);
 }
