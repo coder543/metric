@@ -35,6 +35,12 @@ fn main() {
              outside_temperature,
              danger);
 
-    let total_length = Centimeter(37.2) + Inch(42.0);
-    println!("{:?}", total_length);
+    let endzone = Yard(10.);
+    let football_field = Yard(100.) + endzone * 2.;
+    let stadium = Meter(225.);
+    let edge_of_field_to_stadium_exterior = (stadium - football_field) / 2.;
+    println!("({:?} - {:?}) / 2 = {:?}",
+             stadium,
+             football_field,
+             edge_of_field_to_stadium_exterior);
 }
