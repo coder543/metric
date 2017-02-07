@@ -1,8 +1,11 @@
+//! Defines the `Kelvin` temperature newtype and related trait impls
+
 use std;
 
 use fahrenheit::Fahrenheit;
 use celsius::Celsius;
 
+/// A newtype that wraps around `f64` and provides convenience functions for unit-safe and type-safe manipulation.
 #[derive(Clone, Copy)]
 pub struct Kelvin(pub f64);
 

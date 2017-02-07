@@ -1,3 +1,4 @@
+//! This module provides newtypes for performant and safe unit-aware calculations with temperatures.
 
 pub mod fahrenheit;
 pub mod celsius;

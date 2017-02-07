@@ -1,3 +1,7 @@
+//! This crate is currently a binary crate, but it will soon switch to a library crate.
+
+#![warn(unused_results, missing_docs, unused_extern_crates)]
+#![deny(future_incompatible,)]
 
 #[macro_use]
 mod implmacro;
@@ -13,7 +17,7 @@ pub fn danger_of_freezing<T>(temp: T) -> bool
     return temp < Celsius(5.0);
 }
 
-pub fn main() {
+fn main() {
     let outside_temperature = Fahrenheit(34.);
     let danger = if !danger_of_freezing(outside_temperature) {
         " not"
