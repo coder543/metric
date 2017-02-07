@@ -5,7 +5,7 @@ use std;
 use celsius::Celsius;
 use kelvin::Kelvin;
 
-/// A newtype that wraps around `f64` and provides convenience functions for unit-safe and type-safe manipulation.
+/// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
 pub struct Fahrenheit(pub f64);
 
