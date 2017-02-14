@@ -1,6 +1,6 @@
 [package]
 name = "metric"
 version = "0.1.0"
-authors = ["Josh Leverette <josh.leverette@utiliflex.com>"]
+authors = ["Josh Leverette <coder543@gmail.com>"]
 
 [dependencies]
