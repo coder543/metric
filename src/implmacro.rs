@@ -262,6 +262,24 @@ macro_rules! impl_from_cf {
     }
 }
 
+//impl_through for conversion by intermediary
+macro_rules! impl_through {
+    ($from_type:tt => $through_type:tt => $impl_type:tt) => {
+        impl From<$from_type> for $impl_type {
+            fn from(f: $from_type) -> Self {
+                let intermediate: $through_type = f.into();
+                intermediate.into()
+            }
+        }
+        impl From<$impl_type> for $from_type {
+            fn from(f: $impl_type) -> Self {
+                let intermediate: $through_type = f.into();
+                intermediate.into()
+            }
+        }
+    }
+}
+
 macro_rules! impl_unit_debug {
     ($impl_type:tt => $unitstr:expr) => {
         impl fmt::Debug for $impl_type {

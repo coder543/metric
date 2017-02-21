@@ -36,12 +36,12 @@ impl_scalar_ops!(Kilometer);
 impl_unit_debug!(Kilometer => "{}km");
 impl_partial_ord!(Kilometer);
 
-impl_from!(Centimeter => Kilometer,   |cm|   cm / 100_000.);
-impl_from!(Millimeter => Kilometer,   |mm|   mm / 1_000_000.);
-impl_from!(Inch       => Kilometer, |inch| inch * 0.0000254);
-impl_from!(Foot       => Kilometer, |foot| foot * 0.0003048);
-impl_from!(Yard       => Kilometer, |yard| yard * 0.0009144);
-impl_from!(Mile       => Kilometer, |mile| mile * 1.60934);
+impl_through!(Centimeter => Meter => Kilometer);
+impl_through!(Millimeter => Meter => Kilometer);
+impl_through!(      Inch => Meter => Kilometer);
+impl_through!(      Foot => Meter => Kilometer);
+impl_through!(      Yard => Meter => Kilometer);
+impl_through!(      Mile => Meter => Kilometer);
 
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
@@ -54,12 +54,11 @@ impl_scalar_ops!(Centimeter);
 impl_unit_debug!(Centimeter => "{}cm");
 impl_partial_ord!(Centimeter);
 
-impl_from!(Kilometer  => Centimeter,   |km|   km * 100_000.);
-impl_from!(Millimeter => Centimeter,   |mm|   mm / 10.);
-impl_from!(Inch       => Centimeter, |inch| inch *  2.54);
-impl_from!(Foot       => Centimeter, |foot| foot *  30.48);
-impl_from!(Yard       => Centimeter, |yard| yard *  91.44);
-impl_from!(Mile       => Centimeter, |mile| mile * 160934.);
+impl_through!(Millimeter => Meter => Centimeter);
+impl_through!(      Inch => Meter => Centimeter);
+impl_through!(      Foot => Meter => Centimeter);
+impl_through!(      Yard => Meter => Centimeter);
+impl_through!(      Mile => Meter => Centimeter);
 
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
@@ -72,9 +71,7 @@ impl_scalar_ops!(Millimeter);
 impl_unit_debug!(Millimeter => "{}mm");
 impl_partial_ord!(Millimeter);
 
-impl_from!(Kilometer  => Millimeter,   |km|   km * 1_000_000.);
-impl_from!(Centimeter => Millimeter,   |cm|   cm * 10.);
-impl_from!(Inch       => Millimeter, |inch| inch *  25.4);
-impl_from!(Foot       => Millimeter, |foot| foot *  304.8);
-impl_from!(Yard       => Millimeter, |yard| yard *  914.4);
-impl_from!(Mile       => Millimeter, |mile| mile * 1609340.);
+impl_through!(      Inch => Meter => Millimeter);
+impl_through!(      Foot => Meter => Millimeter);
+impl_through!(      Yard => Meter => Millimeter);
+impl_through!(      Mile => Meter => Millimeter);

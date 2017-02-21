@@ -3,6 +3,7 @@
 use std::{self, fmt};
 
 use metric::*;
+use imperial::*;
 
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
@@ -16,8 +17,10 @@ impl_unit_debug!(AU => "{}AU");
 impl_partial_ord!(AU);
 
 
-
-// impl_from!(Kilometer  => AU,   |km|   km /  (M_PER_AU / 1000.));
-// impl_from!(Meter      => AU,    |m|    m /  (M_PER_AU *    1.));
-// impl_from!(Centimeter => AU,   |cm|   cm /  (M_PER_AU *  100.));
-// impl_from!(Millimeter => AU,   |mm|   mm /  (M_PER_AU * 1000.));
+impl_through!( Kilometer => Meter => AU);
+impl_through!(Centimeter => Meter => AU);
+impl_through!(Millimeter => Meter => AU);
+impl_through!(      Inch => Meter => AU);
+impl_through!(      Foot => Meter => AU);
+impl_through!(      Yard => Meter => AU);
+impl_through!(      Mile => Meter => AU);
