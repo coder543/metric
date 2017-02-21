@@ -10,6 +10,7 @@ pub struct Meter(pub f64);
 pub type Meters = Meter;
 
 impl_basic_ops!(Meter);
+impl_div_same!(Meter);
 impl_scalar_ops!(Meter);
 impl_unit_debug!(Meter => "{}m");
 impl_partial_ord!(Meter);
@@ -28,6 +29,7 @@ pub struct Kilometer(pub f64);
 pub type Kilometers = Kilometer;
 
 impl_basic_ops!(Kilometer);
+impl_div_same!(Kilometer);
 impl_scalar_ops!(Kilometer);
 impl_unit_debug!(Kilometer => "{}km");
 impl_partial_ord!(Kilometer);
@@ -46,6 +48,7 @@ pub struct Centimeter(pub f64);
 pub type Centimeters = Centimeter;
 
 impl_basic_ops!(Centimeter);
+impl_div_same!(Centimeter);
 impl_scalar_ops!(Centimeter);
 impl_unit_debug!(Centimeter => "{}cm");
 impl_partial_ord!(Centimeter);
@@ -64,6 +67,7 @@ pub struct Millimeter(pub f64);
 pub type Millimeters = Millimeter;
 
 impl_basic_ops!(Millimeter);
+impl_div_same!(Millimeter);
 impl_scalar_ops!(Millimeter);
 impl_unit_debug!(Millimeter => "{}mm");
 impl_partial_ord!(Millimeter);

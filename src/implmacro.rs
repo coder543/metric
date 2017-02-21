@@ -105,29 +105,16 @@ macro_rules! impl_mulassign {
     }
 }
 
-macro_rules! impl_div {
+macro_rules! impl_div_same {
     ($impl_type:tt) => {
         impl<T> std::ops::Div<T> for $impl_type
             where T: Into<$impl_type>
         {
-            type Output = $impl_type;
+            type Output = f64;
 
             fn div(self, other: T) -> Self::Output {
                 let other: Self = other.into();
-                $impl_type(self.0 / other.0)
-            }
-        }
-    }
-}
-
-macro_rules! impl_divassign {
-    ($impl_type:tt) => {
-        impl<T> std::ops::DivAssign<T> for $impl_type
-            where T: Into<$impl_type>
-        {
-            fn div_assign(&mut self, other: T) {
-                let other: Self = other.into();
-                self.0 /= other.0;
+                self.0 / other.0
             }
         }
     }
@@ -144,6 +131,30 @@ macro_rules! impl_mul_scalar {
                 $impl_type(self.0 * other)
             }
         }
+        impl std::ops::Mul<$impl_type> for f64
+        {
+            type Output = $impl_type;
+
+            fn mul(self, other: $impl_type) -> Self::Output {
+                $impl_type(self * other.0)
+            }
+        }
+        impl std::ops::Mul<i64> for $impl_type
+        {
+            type Output = $impl_type;
+
+            fn mul(self, other: i64) -> Self::Output {
+                $impl_type(self.0 * other as f64)
+            }
+        }
+        impl std::ops::Mul<$impl_type> for i64
+        {
+            type Output = $impl_type;
+
+            fn mul(self, other: $impl_type) -> Self::Output {
+                $impl_type(self as f64 * other.0)
+            }
+        }
     }
 }
 
@@ -153,6 +164,12 @@ macro_rules! impl_mulassign_scalar {
         {
             fn mul_assign(&mut self, other: f64) {
                 self.0 *= other;
+            }
+        }
+        impl std::ops::MulAssign<i64> for $impl_type
+        {
+            fn mul_assign(&mut self, other: i64) {
+                self.0 *= other as f64;
             }
         }
     }
@@ -168,6 +185,14 @@ macro_rules! impl_div_scalar {
                 $impl_type(self.0 / other)
             }
         }
+        impl std::ops::Div<i64> for $impl_type
+        {
+            type Output = $impl_type;
+
+            fn div(self, other: i64) -> Self::Output {
+                $impl_type(self.0 / other as f64)
+            }
+        }
     }
 }
 
@@ -177,6 +202,12 @@ macro_rules! impl_divassign_scalar {
         {
             fn div_assign(&mut self, other: f64) {
                 self.0 /= other;
+            }
+        }
+        impl std::ops::DivAssign<i64> for $impl_type
+        {
+            fn div_assign(&mut self, other: i64) {
+                self.0 /= other as f64;
             }
         }
     }
