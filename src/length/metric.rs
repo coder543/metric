@@ -3,6 +3,7 @@
 use std::{self, fmt};
 
 use imperial::*;
+use astronomical::*;
 
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
@@ -15,13 +16,14 @@ impl_scalar_ops!(Meter);
 impl_unit_debug!(Meter => "{}m");
 impl_partial_ord!(Meter);
 
-impl_from!(Kilometer  => Meter,   |km|   km *  1_000.);
-impl_from!(Centimeter => Meter,   |cm|   cm /    100.);
-impl_from!(Millimeter => Meter,   |mm|   mm /  1_000.);
-impl_from!(Inch       => Meter, |inch| inch *  0.0254);
-impl_from!(Foot       => Meter, |foot| foot *  0.3048);
-impl_from!(Yard       => Meter, |yard| yard *  0.9144);
-impl_from!(Mile       => Meter, |mile| mile * 1609.34);
+impl_from_cf!(AU        <===> 149597870700.0 Meter     );
+impl_from_cf!(Kilometer <===>         1000.0 Meter     );
+impl_from_cf!(Mile      <===>        1609.34 Meter     );
+impl_from_cf!(Meter     <===>          100.0 Centimeter);
+impl_from_cf!(Meter     <===>         1000.0 Millimeter);
+impl_from_cf!(Meter     <===>        39.3701 Inch      );
+impl_from_cf!(Meter     <===> 3.280841666667 Foot      );
+impl_from_cf!(Meter     <===> 1.093613888889 Yard      );
 
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
@@ -34,7 +36,6 @@ impl_scalar_ops!(Kilometer);
 impl_unit_debug!(Kilometer => "{}km");
 impl_partial_ord!(Kilometer);
 
-impl_from!(Meter      => Kilometer,    |m|    m / 1_000.);
 impl_from!(Centimeter => Kilometer,   |cm|   cm / 100_000.);
 impl_from!(Millimeter => Kilometer,   |mm|   mm / 1_000_000.);
 impl_from!(Inch       => Kilometer, |inch| inch * 0.0000254);
@@ -54,7 +55,6 @@ impl_unit_debug!(Centimeter => "{}cm");
 impl_partial_ord!(Centimeter);
 
 impl_from!(Kilometer  => Centimeter,   |km|   km * 100_000.);
-impl_from!(Meter      => Centimeter,    |m|    m * 100.);
 impl_from!(Millimeter => Centimeter,   |mm|   mm / 10.);
 impl_from!(Inch       => Centimeter, |inch| inch *  2.54);
 impl_from!(Foot       => Centimeter, |foot| foot *  30.48);
@@ -73,7 +73,6 @@ impl_unit_debug!(Millimeter => "{}mm");
 impl_partial_ord!(Millimeter);
 
 impl_from!(Kilometer  => Millimeter,   |km|   km * 1_000_000.);
-impl_from!(Meter      => Millimeter,    |m|    m * 1000.);
 impl_from!(Centimeter => Millimeter,   |cm|   cm * 10.);
 impl_from!(Inch       => Millimeter, |inch| inch *  25.4);
 impl_from!(Foot       => Millimeter, |foot| foot *  304.8);

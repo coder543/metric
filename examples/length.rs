@@ -10,4 +10,9 @@ fn main() {
              stadium,
              football_field,
              edge_of_field_to_stadium_exterior);
+
+    let earth_sun = AU(1.);
+    let earth_sun_m: Meters = earth_sun.into();
+    let earth_sun_mi: Miles = earth_sun_m.into();
+    println!("{:?}\n{:?}\n{:?}", earth_sun, earth_sun_m, earth_sun_mi);
 }

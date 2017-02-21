@@ -246,6 +246,22 @@ macro_rules! impl_from {
     }
 }
 
+//impl_from for constant factor conversions
+macro_rules! impl_from_cf {
+    ($from_type:tt <===> $conversion:tt $impl_type:tt) => {
+        impl From<$from_type> for $impl_type {
+            fn from(f: $from_type) -> Self {
+                $impl_type(f.0 * $conversion)
+            }
+        }
+        impl From<$impl_type> for $from_type {
+            fn from(f: $impl_type) -> Self {
+                $from_type(f.0 / $conversion)
+            }
+        }
+    }
+}
+
 macro_rules! impl_unit_debug {
     ($impl_type:tt => $unitstr:expr) => {
         impl fmt::Debug for $impl_type {
