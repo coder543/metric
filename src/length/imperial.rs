@@ -2,8 +2,6 @@
 
 use std::{self, fmt};
 
-use metric::*;
-
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
 pub struct Inch(pub f64);

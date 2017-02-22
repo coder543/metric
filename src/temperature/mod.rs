@@ -4,6 +4,6 @@ pub mod fahrenheit;
 pub mod celsius;
 pub mod kelvin;
 
-pub use fahrenheit::Fahrenheit;
-pub use celsius::Celsius;
-pub use kelvin::Kelvin;
+pub use self::fahrenheit::Fahrenheit;
+pub use self::celsius::Celsius;
+pub use self::kelvin::Kelvin;

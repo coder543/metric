@@ -2,8 +2,8 @@
 
 use std::{self, fmt};
 
-use fahrenheit::Fahrenheit;
-use celsius::Celsius;
+use temperature::Fahrenheit;
+use temperature::Celsius;
 
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
