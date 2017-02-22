@@ -1,5 +1,7 @@
 extern crate metric;
-use metric::length::*;
+use metric::length::imperial::*;
+use metric::length::astronomical::*;
+use metric::length::metric::*;
 
 fn main() {
     let endzone = Yard(10.);
@@ -13,6 +15,6 @@ fn main() {
 
     let earth_sun: AU = Kilometer(149597870.700).into();
     let earth_sun_m: Meters = earth_sun.into();
-    let earth_sun_mi: Miles = earth_sun_m.into();
+    let earth_sun_mi: Miles = earth_sun.into();
     println!("{:?}\n{:?}\n{:?}", earth_sun, earth_sun_m, earth_sun_mi);
 }

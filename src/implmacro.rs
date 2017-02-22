@@ -287,5 +287,16 @@ macro_rules! impl_unit_debug {
                 write!(f, $unitstr, self.0)
             }
         }
+    };
+    ($impl_type:tt => $unitstr:expr, $unitstr_plural:expr) => {
+        impl fmt::Debug for $impl_type {
+            fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+                if self.0 == 1.0 {
+                    write!(f, $unitstr, self.0)
+                } else {
+                    write!(f, $unitstr_plural, self.0)
+                }
+            }
+        }
     }
 }

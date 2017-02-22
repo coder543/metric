@@ -16,14 +16,14 @@ impl_scalar_ops!(Meter);
 impl_unit_debug!(Meter => "{}m");
 impl_partial_ord!(Meter);
 
-impl_from_cf!(AU        <===> 149597870700.0    Meter     );
-impl_from_cf!(Kilometer <===>        1_000.0    Meter     );
-impl_from_cf!(Mile      <===>        1_609.3    Meter     );
-impl_from_cf!(Meter     <===>          100.0    Centimeter);
-impl_from_cf!(Meter     <===>        1_000.0    Millimeter);
-impl_from_cf!(Meter     <===>           39.3701 Inch      );
-impl_from_cf!(Meter     <===> 3.280841666667    Foot      );
-impl_from_cf!(Meter     <===> 1.093613888889    Yard      );
+impl_from_cf!(AU        <===> 149597870700.0     Meter     );
+impl_from_cf!(Kilometer <===>        1_000.0     Meter     );
+impl_from_cf!(Mile      <===>        1_609.344   Meter     );
+impl_from_cf!(Meter     <===>          100.0     Centimeter);
+impl_from_cf!(Meter     <===>        1_000.0     Millimeter);
+impl_from_cf!(Meter     <===>           39.37007 Inch      );
+impl_from_cf!(Meter     <===> 3.280841666667     Foot      );
+impl_from_cf!(Meter     <===> 1.093613888889     Yard      );
 
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
@@ -37,12 +37,12 @@ impl_unit_debug!(Kilometer => "{}km");
 impl_partial_ord!(Kilometer);
 
 impl_from_cf!(AU        <===> 149597870.70 Kilometer );
+impl_from_cf!(Mile      <===>     1.609344 Kilometer );
 impl_from_cf!(Kilometer <===> 1_000_000.00 Millimeter);
 impl_from_cf!(Kilometer <===>   100_000.00 Centimeter);
 impl_from_cf!(Kilometer <===>    39_370.10 Inch      );
 impl_from_cf!(Kilometer <===>     3_280.84 Foot      );
 impl_from_cf!(Kilometer <===>     1_093.61 Yard      );
-impl_from_cf!(Kilometer <===>    0.6213711 Mile      );
 
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
