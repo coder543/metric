@@ -213,6 +213,87 @@ macro_rules! impl_divassign_scalar {
     }
 }
 
+macro_rules! impl_composite_base {
+    ($type_a:tt) => {
+        impl New for $type_a {
+            fn new(val: f64) -> Self {
+                $type_a(val)
+            }
+        }
+        impl<T, U> std::ops::Mul<Mul<T, U>> for $type_a
+            where T: std::ops::Mul<f64, Output=f64> + std::ops::Div<T, Output=f64> + Copy + New
+        {
+            type Output = Mul<$type_a, Mul<T, U>>;
+
+            fn mul(self, other: Mul<T, U>) -> Self::Output {
+                Mul($type_a(other.0 * self.0), Mul(T::new(1.0), other.1))
+            }
+        }
+        impl<T, U> std::ops::Mul<Div<T, U>> for $type_a
+            where T: std::ops::Mul<f64, Output=f64> + std::ops::Div<T, Output=f64> + Copy + New
+        {
+            type Output = Mul<$type_a, Div<T, U>>;
+
+            fn mul(self, other: Div<T, U>) -> Self::Output {
+                Mul($type_a(other.0 * self.0), Div(T::new(1.0), other.1))
+            }
+        }
+        impl<T, U> std::ops::Div<Mul<T, U>> for $type_a
+        {
+            type Output = Div<$type_a, Mul<T, U>>;
+
+            fn div(self, other: Mul<T, U>) -> Self::Output {
+                Div(self, other)
+            }
+        }
+        impl<T, U> std::ops::Div<Div<T, U>> for $type_a
+        {
+            type Output = Div<$type_a, Div<T, U>>;
+
+            fn div(self, other: Div<T, U>) -> Self::Output {
+                Div(self, other)
+            }
+        }
+    }
+}
+
+macro_rules! impl_composite {
+    ($type_a:tt, $type_b:tt) => {
+        impl std::ops::Mul<$type_b> for $type_a
+        {
+            type Output = Mul<$type_a, $type_b>;
+
+            fn mul(self, other: $type_b) -> Self::Output {
+                Mul($type_a(self.0 * other.0), $type_b(1.0))
+            }
+        }
+        impl std::ops::Mul<$type_a> for $type_b
+        {
+            type Output = Mul<$type_b, $type_a>;
+
+            fn mul(self, other: $type_a) -> Self::Output {
+                Mul($type_b(self.0 * other.0), $type_a(1.0))
+            }
+        }
+        impl std::ops::Div<$type_b> for $type_a
+        {
+            type Output = Div<$type_a, $type_b>;
+
+            fn div(self, other: $type_b) -> Self::Output {
+                Div($type_a(self.0 / other.0), $type_b(1.0))
+            }
+        }
+        impl std::ops::Div<$type_a> for $type_b
+        {
+            type Output = Div<$type_b, $type_a>;
+
+            fn div(self, other: $type_a) -> Self::Output {
+                Div($type_b(self.0 / other.0), $type_a(1.0))
+            }
+        }
+    }
+}
+
 macro_rules! impl_basic_ops {
     ($impl_type:tt) => {
         impl_add!($impl_type);
