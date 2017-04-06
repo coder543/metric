@@ -251,12 +251,22 @@ macro_rules! impl_composite_base {
                 Div(self, other)
             }
         }
+
         impl<T, U> std::ops::Div<Div<T, U>> for $type_a
         {
             type Output = Div<$type_a, Div<T, U>>;
 
             fn div(self, other: Div<T, U>) -> Self::Output {
                 Div(self, other)
+            }
+        }
+        impl<T, U> std::ops::Div<$type_a> for Div<T, U>
+            where T: New + Tuple
+        {
+            type Output = Div<T, Mul<U, $type_a>>;
+
+            fn div(self, other: $type_a) -> Self::Output {
+                Div(T::new(self.0.inner() / other.0), Mul(self.1, $type_a(1.0)))
             }
         }
     }

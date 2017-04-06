@@ -67,6 +67,72 @@ impl<T, U, W, X> std::ops::Mul<Div<T, U>> for Div<W, X>
     }
 }
 
+
+impl<T, U, W, X> std::ops::Div<Mul<T, U>> for Mul<W, X>
+    where W: Copy + New + Tuple,
+          T: Copy + New + Tuple,
+{
+    type Output = Mul<W, Div<X, Mul<T, U>>>;
+
+    fn div(self, other: Mul<T, U>) -> Self::Output {
+        Mul(W::new(self.0.inner()/other.0.inner()), Div(self.1, Mul(T::new(1.0), other.1)))
+    }
+}
+
+impl<T, U, W, X> std::ops::Div<Div<T, U>> for Mul<W, X>
+    where W: Copy + New + Tuple,
+          T: Copy + New + Tuple,
+{
+    type Output = Mul<W, Mul<X, Div<U, T>>>;
+
+    fn div(self, other: Div<T, U>) -> Self::Output {
+        Mul(W::new(self.0.inner()/other.0.inner()), Mul(self.1, Div(other.1, T::new(1.0))))
+    }
+}
+
+impl<T, U, W, X> std::ops::Div<Mul<T, U>> for Div<W, X>
+    where W: Copy + New + Tuple,
+          T: Copy + New + Tuple,
+{
+    type Output = Div<W, Mul<X, Mul<T, U>>>;
+
+    fn div(self, other: Mul<T, U>) -> Self::Output {
+        Div(W::new(self.0.inner()/other.0.inner()), Mul(self.1, Mul(T::new(1.0), other.1)))
+    }
+}
+
+impl<T, U, W, X> std::ops::Div<Div<T, U>> for Div<W, X>
+    where W: Copy + New + Tuple,
+          T: Copy + New + Tuple,
+{
+    type Output = Mul<W, Div<U, Mul<T, X>>>;
+
+    fn div(self, other: Div<T, U>) -> Self::Output {
+        Mul(W::new(self.0.inner()/other.0.inner()), Div(other.1, Mul(T::new(1.0), self.1)))
+    }
+}
+
+
+impl<T, U> std::ops::Sub for Mul<T, U>
+    where T: std::ops::Sub<T, Output=T>
+{
+    type Output = Mul<T, U>;
+
+    fn sub(self, other: Mul<T, U>) -> Self::Output {
+        return Mul(self.0 - other.0, self.1);
+    }
+}
+
+impl<T, U> std::ops::Sub for Div<T, U>
+    where T: std::ops::Sub<T, Output=T>
+{    
+    type Output = Div<T, U>;
+
+    fn sub(self, other: Div<T, U>) -> Self::Output {
+        return Div(self.0 - other.0, self.1);
+    }
+}
+
 pub trait New {
     fn new(val: f64) -> Self;
 }
