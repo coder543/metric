@@ -1,14 +1,3 @@
-#[derive(Copy, Clone, Debug)]
-pub struct Mul<T, U>(pub T, pub U);
-
-#[derive(Copy, Clone, Debug)]
-pub struct Div<T, U>(pub T, pub U);
-
-pub trait New {
-    fn new(val: f64) -> Self;
-}
-
-
 use length::astronomical::*;
 use length::imperial::*;
 use length::metric::*;
@@ -27,6 +16,65 @@ use temperature::kelvin::*;
 
 use std;
 
+#[derive(Copy, Clone, Debug)]
+pub struct Mul<T, U>(pub T, pub U);
+
+#[derive(Copy, Clone, Debug)]
+pub struct Div<T, U>(pub T, pub U);
+
+
+impl<T, U, W, X> std::ops::Mul<Mul<T, U>> for Mul<W, X>
+    where W: Copy + New + Tuple,
+          T: Copy + New + Tuple,
+{
+    type Output = Mul<W, Mul<X, Mul<T, U>>>;
+
+    fn mul(self, other: Mul<T, U>) -> Self::Output {
+        Mul(W::new(self.0.inner()*other.0.inner()), Mul(self.1, Mul(T::new(1.0), other.1)))
+    }
+}
+
+impl<T, U, W, X> std::ops::Mul<Div<T, U>> for Mul<W, X>
+    where W: Copy + New + Tuple,
+          T: Copy + New + Tuple,
+{
+    type Output = Mul<W, Mul<X, Div<T, U>>>;
+
+    fn mul(self, other: Div<T, U>) -> Self::Output {
+        Mul(W::new(self.0.inner()*other.0.inner()), Mul(self.1, Div(T::new(1.0), other.1)))
+    }
+}
+
+impl<T, U, W, X> std::ops::Mul<Mul<T, U>> for Div<W, X>
+    where W: Copy + New + Tuple,
+          T: Copy + New + Tuple,
+{
+    type Output = Mul<W, Mul<T, Div<U, X>>>;
+
+    fn mul(self, other: Mul<T, U>) -> Self::Output {
+        Mul(W::new(self.0.inner()*other.0.inner()), Mul(T::new(1.0), Div(other.1, self.1)))
+    }
+}
+
+impl<T, U, W, X> std::ops::Mul<Div<T, U>> for Div<W, X>
+    where W: Copy + New + Tuple,
+          T: Copy + New + Tuple,
+{
+    type Output = Mul<W, Div<T, Mul<X, U>>>;
+
+    fn mul(self, other: Div<T, U>) -> Self::Output {
+        Mul(W::new(self.0.inner()*other.0.inner()), Div(T::new(1.0), Mul(self.1, other.1)))
+    }
+}
+
+pub trait New {
+    fn new(val: f64) -> Self;
+}
+
+pub trait Tuple {
+    fn inner(self) -> f64;
+}
+
 impl_composite_base!(AU);
 impl_composite_base!(Kilometer);
 impl_composite_base!(Meter);
@@ -35,6 +83,10 @@ impl_composite_base!(Millimeter);
 impl_composite_base!(Micrometer);
 impl_composite_base!(Picometer);
 impl_composite_base!(Femtometer);
+impl_composite_base!(Inch);
+impl_composite_base!(Foot);
+impl_composite_base!(Yard);
+impl_composite_base!(Mile);
 impl_composite_base!(Fahrenheit);
 impl_composite_base!(Celsius);
 impl_composite_base!(Kelvin);

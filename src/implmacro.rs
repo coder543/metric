@@ -220,22 +220,27 @@ macro_rules! impl_composite_base {
                 $type_a(val)
             }
         }
+        impl Tuple for $type_a {
+            fn inner(self) -> f64 {
+                self.0
+            }
+        }
         impl<T, U> std::ops::Mul<Mul<T, U>> for $type_a
-            where T: std::ops::Mul<f64, Output=f64> + std::ops::Div<T, Output=f64> + Copy + New
+            where T: Copy + New + Tuple,
         {
             type Output = Mul<$type_a, Mul<T, U>>;
 
             fn mul(self, other: Mul<T, U>) -> Self::Output {
-                Mul($type_a(other.0 * self.0), Mul(T::new(1.0), other.1))
+                Mul($type_a(other.0.inner() * self.0), Mul(T::new(1.0), other.1))
             }
         }
         impl<T, U> std::ops::Mul<Div<T, U>> for $type_a
-            where T: std::ops::Mul<f64, Output=f64> + std::ops::Div<T, Output=f64> + Copy + New
+            where T: Copy + New + Tuple,
         {
             type Output = Mul<$type_a, Div<T, U>>;
 
             fn mul(self, other: Div<T, U>) -> Self::Output {
-                Mul($type_a(other.0 * self.0), Div(T::new(1.0), other.1))
+                Mul($type_a(other.0.inner() * self.0), Div(T::new(1.0), other.1))
             }
         }
         impl<T, U> std::ops::Div<Mul<T, U>> for $type_a
