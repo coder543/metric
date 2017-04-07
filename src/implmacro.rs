@@ -377,7 +377,7 @@ macro_rules! impl_through {
 macro_rules! impl_unit_debug {
     ($impl_type:tt => $unitstr:expr) => {
         impl UnitName for $impl_type {
-            fn get_name() -> &'static str {
+            fn get_unit(&self) -> &'static str {
                 return $unitstr;
             }
         }

@@ -22,7 +22,7 @@ pub trait Unit {
 }
 
 pub trait UnitName {
-    fn get_name() -> &'static str;
+    fn get_unit(&self) -> &'static str;
 }
 
 #[derive(Copy, Clone, Debug)]
