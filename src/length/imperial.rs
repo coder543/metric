@@ -1,6 +1,6 @@
 //! Defines the imperial length standards as newtypes
 
-use std::{self, fmt};
+use core::{self, fmt};
 
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]

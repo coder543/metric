@@ -1,6 +1,8 @@
 #![warn(unused_results, unused_extern_crates)]
 #![deny(future_incompatible,)]
 
+#![no_std]
+
 #[macro_use]
 mod implmacro;
 

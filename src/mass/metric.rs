@@ -1,6 +1,6 @@
 //! Defines the metric mass standards as newtypes
 
-use std::{self, fmt};
+use core::{self, fmt};
 
 use mass::imperial::{Ounce, Pound, Ton as ITon};
 

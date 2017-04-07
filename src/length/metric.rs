@@ -1,6 +1,6 @@
 //! Defines the metric length standards as newtypes
 
-use std::{self, fmt};
+use core::{self, fmt};
 
 use length::imperial::*;
 use length::astronomical::*;

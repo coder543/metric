@@ -14,7 +14,7 @@ use temperature::celsius::*;
 use temperature::fahrenheit::*;
 use temperature::kelvin::*;
 
-use std;
+use core;
 
 #[derive(Copy, Clone, Debug)]
 pub struct Mul<T, U>(pub T, pub U);
@@ -23,7 +23,7 @@ pub struct Mul<T, U>(pub T, pub U);
 pub struct Div<T, U>(pub T, pub U);
 
 
-impl<T, U, W, X> std::ops::Mul<Mul<T, U>> for Mul<W, X>
+impl<T, U, W, X> core::ops::Mul<Mul<T, U>> for Mul<W, X>
     where W: Copy + New + Tuple,
           T: Copy + New + Tuple,
 {
@@ -34,7 +34,7 @@ impl<T, U, W, X> std::ops::Mul<Mul<T, U>> for Mul<W, X>
     }
 }
 
-impl<T, U, W, X> std::ops::Mul<Div<T, U>> for Mul<W, X>
+impl<T, U, W, X> core::ops::Mul<Div<T, U>> for Mul<W, X>
     where W: Copy + New + Tuple,
           T: Copy + New + Tuple,
 {
@@ -45,7 +45,7 @@ impl<T, U, W, X> std::ops::Mul<Div<T, U>> for Mul<W, X>
     }
 }
 
-impl<T, U, W, X> std::ops::Mul<Mul<T, U>> for Div<W, X>
+impl<T, U, W, X> core::ops::Mul<Mul<T, U>> for Div<W, X>
     where W: Copy + New + Tuple,
           T: Copy + New + Tuple,
 {
@@ -56,7 +56,7 @@ impl<T, U, W, X> std::ops::Mul<Mul<T, U>> for Div<W, X>
     }
 }
 
-impl<T, U, W, X> std::ops::Mul<Div<T, U>> for Div<W, X>
+impl<T, U, W, X> core::ops::Mul<Div<T, U>> for Div<W, X>
     where W: Copy + New + Tuple,
           T: Copy + New + Tuple,
 {
@@ -68,7 +68,7 @@ impl<T, U, W, X> std::ops::Mul<Div<T, U>> for Div<W, X>
 }
 
 
-impl<T, U, W, X> std::ops::Div<Mul<T, U>> for Mul<W, X>
+impl<T, U, W, X> core::ops::Div<Mul<T, U>> for Mul<W, X>
     where W: Copy + New + Tuple,
           T: Copy + New + Tuple,
 {
@@ -79,7 +79,7 @@ impl<T, U, W, X> std::ops::Div<Mul<T, U>> for Mul<W, X>
     }
 }
 
-impl<T, U, W, X> std::ops::Div<Div<T, U>> for Mul<W, X>
+impl<T, U, W, X> core::ops::Div<Div<T, U>> for Mul<W, X>
     where W: Copy + New + Tuple,
           T: Copy + New + Tuple,
 {
@@ -90,7 +90,7 @@ impl<T, U, W, X> std::ops::Div<Div<T, U>> for Mul<W, X>
     }
 }
 
-impl<T, U, W, X> std::ops::Div<Mul<T, U>> for Div<W, X>
+impl<T, U, W, X> core::ops::Div<Mul<T, U>> for Div<W, X>
     where W: Copy + New + Tuple,
           T: Copy + New + Tuple,
 {
@@ -101,7 +101,7 @@ impl<T, U, W, X> std::ops::Div<Mul<T, U>> for Div<W, X>
     }
 }
 
-impl<T, U, W, X> std::ops::Div<Div<T, U>> for Div<W, X>
+impl<T, U, W, X> core::ops::Div<Div<T, U>> for Div<W, X>
     where W: Copy + New + Tuple,
           T: Copy + New + Tuple,
 {
@@ -113,8 +113,8 @@ impl<T, U, W, X> std::ops::Div<Div<T, U>> for Div<W, X>
 }
 
 
-impl<T, U> std::ops::Sub for Mul<T, U>
-    where T: std::ops::Sub<T, Output=T>
+impl<T, U> core::ops::Sub for Mul<T, U>
+    where T: core::ops::Sub<T, Output=T>
 {
     type Output = Mul<T, U>;
 
@@ -123,8 +123,8 @@ impl<T, U> std::ops::Sub for Mul<T, U>
     }
 }
 
-impl<T, U> std::ops::Sub for Div<T, U>
-    where T: std::ops::Sub<T, Output=T>
+impl<T, U> core::ops::Sub for Div<T, U>
+    where T: core::ops::Sub<T, Output=T>
 {    
     type Output = Div<T, U>;
 

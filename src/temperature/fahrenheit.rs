@@ -1,6 +1,6 @@
 //! Defines the `Fahrenheit` temperature newtype and related trait impls
 
-use std::{self, fmt};
+use core::{self, fmt};
 
 use temperature::Celsius;
 use temperature::Kelvin;

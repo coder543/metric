@@ -12,7 +12,7 @@ macro_rules! impl_partial_ord {
         impl<T> PartialOrd<T> for $impl_type
             where T: Copy + Into<$impl_type>
         {
-            fn partial_cmp(&self, other: &T) -> Option<std::cmp::Ordering> {
+            fn partial_cmp(&self, other: &T) -> Option<core::cmp::Ordering> {
                 let other_t: T = *other;
                 let other: Self = other_t.into();
                 self.0.partial_cmp(&other.0)
@@ -23,7 +23,7 @@ macro_rules! impl_partial_ord {
 
 macro_rules! impl_add {
     ($impl_type:tt) => {
-        impl<T> std::ops::Add<T> for $impl_type
+        impl<T> core::ops::Add<T> for $impl_type
             where T: Into<$impl_type>
         {
             type Output = $impl_type;
@@ -38,7 +38,7 @@ macro_rules! impl_add {
 
 macro_rules! impl_addassign {
     ($impl_type:tt) => {
-        impl<T> std::ops::AddAssign<T> for $impl_type
+        impl<T> core::ops::AddAssign<T> for $impl_type
             where T: Into<$impl_type>
         {
             fn add_assign(&mut self, other: T) {
@@ -51,7 +51,7 @@ macro_rules! impl_addassign {
 
 macro_rules! impl_sub {
     ($impl_type:tt) => {
-        impl<T> std::ops::Sub<T> for $impl_type
+        impl<T> core::ops::Sub<T> for $impl_type
             where T: Into<$impl_type>
         {
             type Output = $impl_type;
@@ -66,7 +66,7 @@ macro_rules! impl_sub {
 
 macro_rules! impl_subassign {
     ($impl_type:tt) => {
-        impl<T> std::ops::SubAssign<T> for $impl_type
+        impl<T> core::ops::SubAssign<T> for $impl_type
             where T: Into<$impl_type>
         {
             fn sub_assign(&mut self, other: T) {
@@ -79,7 +79,7 @@ macro_rules! impl_subassign {
 
 macro_rules! impl_mul {
     ($impl_type:tt) => {
-        impl<T> std::ops::Mul<T> for $impl_type
+        impl<T> core::ops::Mul<T> for $impl_type
             where T: Into<$impl_type>
         {
             type Output = $impl_type;
@@ -94,7 +94,7 @@ macro_rules! impl_mul {
 
 macro_rules! impl_mulassign {
     ($impl_type:tt) => {
-        impl<T> std::ops::MulAssign<T> for $impl_type
+        impl<T> core::ops::MulAssign<T> for $impl_type
             where T: Into<$impl_type>
         {
             fn mul_assign(&mut self, other: T) {
@@ -107,7 +107,7 @@ macro_rules! impl_mulassign {
 
 macro_rules! impl_div_same {
     ($impl_type:tt) => {
-        impl<T> std::ops::Div<T> for $impl_type
+        impl<T> core::ops::Div<T> for $impl_type
             where T: Into<$impl_type>
         {
             type Output = f64;
@@ -123,7 +123,7 @@ macro_rules! impl_div_same {
 
 macro_rules! impl_mul_scalar {
     ($impl_type:tt) => {
-        impl std::ops::Mul<f64> for $impl_type
+        impl core::ops::Mul<f64> for $impl_type
         {
             type Output = $impl_type;
 
@@ -131,7 +131,7 @@ macro_rules! impl_mul_scalar {
                 $impl_type(self.0 * other)
             }
         }
-        impl std::ops::Mul<$impl_type> for f64
+        impl core::ops::Mul<$impl_type> for f64
         {
             type Output = $impl_type;
 
@@ -139,7 +139,7 @@ macro_rules! impl_mul_scalar {
                 $impl_type(self * other.0)
             }
         }
-        impl std::ops::Mul<i64> for $impl_type
+        impl core::ops::Mul<i64> for $impl_type
         {
             type Output = $impl_type;
 
@@ -147,7 +147,7 @@ macro_rules! impl_mul_scalar {
                 $impl_type(self.0 * other as f64)
             }
         }
-        impl std::ops::Mul<$impl_type> for i64
+        impl core::ops::Mul<$impl_type> for i64
         {
             type Output = $impl_type;
 
@@ -160,13 +160,13 @@ macro_rules! impl_mul_scalar {
 
 macro_rules! impl_mulassign_scalar {
     ($impl_type:tt) => {
-        impl std::ops::MulAssign<f64> for $impl_type
+        impl core::ops::MulAssign<f64> for $impl_type
         {
             fn mul_assign(&mut self, other: f64) {
                 self.0 *= other;
             }
         }
-        impl std::ops::MulAssign<i64> for $impl_type
+        impl core::ops::MulAssign<i64> for $impl_type
         {
             fn mul_assign(&mut self, other: i64) {
                 self.0 *= other as f64;
@@ -177,7 +177,7 @@ macro_rules! impl_mulassign_scalar {
 
 macro_rules! impl_div_scalar {
     ($impl_type:tt) => {
-        impl std::ops::Div<f64> for $impl_type
+        impl core::ops::Div<f64> for $impl_type
         {
             type Output = $impl_type;
 
@@ -185,7 +185,7 @@ macro_rules! impl_div_scalar {
                 $impl_type(self.0 / other)
             }
         }
-        impl std::ops::Div<i64> for $impl_type
+        impl core::ops::Div<i64> for $impl_type
         {
             type Output = $impl_type;
 
@@ -198,13 +198,13 @@ macro_rules! impl_div_scalar {
 
 macro_rules! impl_divassign_scalar {
     ($impl_type:tt) => {
-        impl std::ops::DivAssign<f64> for $impl_type
+        impl core::ops::DivAssign<f64> for $impl_type
         {
             fn div_assign(&mut self, other: f64) {
                 self.0 /= other;
             }
         }
-        impl std::ops::DivAssign<i64> for $impl_type
+        impl core::ops::DivAssign<i64> for $impl_type
         {
             fn div_assign(&mut self, other: i64) {
                 self.0 /= other as f64;
@@ -225,7 +225,7 @@ macro_rules! impl_composite_base {
                 self.0
             }
         }
-        impl<T, U> std::ops::Mul<Mul<T, U>> for $type_a
+        impl<T, U> core::ops::Mul<Mul<T, U>> for $type_a
             where T: Copy + New + Tuple,
         {
             type Output = Mul<$type_a, Mul<T, U>>;
@@ -234,7 +234,7 @@ macro_rules! impl_composite_base {
                 Mul($type_a(other.0.inner() * self.0), Mul(T::new(1.0), other.1))
             }
         }
-        impl<T, U> std::ops::Mul<Div<T, U>> for $type_a
+        impl<T, U> core::ops::Mul<Div<T, U>> for $type_a
             where T: Copy + New + Tuple,
         {
             type Output = Mul<$type_a, Div<T, U>>;
@@ -243,7 +243,7 @@ macro_rules! impl_composite_base {
                 Mul($type_a(other.0.inner() * self.0), Div(T::new(1.0), other.1))
             }
         }
-        impl<T, U> std::ops::Div<Mul<T, U>> for $type_a
+        impl<T, U> core::ops::Div<Mul<T, U>> for $type_a
         {
             type Output = Div<$type_a, Mul<T, U>>;
 
@@ -252,7 +252,7 @@ macro_rules! impl_composite_base {
             }
         }
 
-        impl<T, U> std::ops::Div<Div<T, U>> for $type_a
+        impl<T, U> core::ops::Div<Div<T, U>> for $type_a
         {
             type Output = Div<$type_a, Div<T, U>>;
 
@@ -260,7 +260,7 @@ macro_rules! impl_composite_base {
                 Div(self, other)
             }
         }
-        impl<T, U> std::ops::Div<$type_a> for Div<T, U>
+        impl<T, U> core::ops::Div<$type_a> for Div<T, U>
             where T: New + Tuple
         {
             type Output = Div<T, Mul<U, $type_a>>;
@@ -274,7 +274,7 @@ macro_rules! impl_composite_base {
 
 macro_rules! impl_composite {
     ($type_a:tt, $type_b:tt) => {
-        impl std::ops::Mul<$type_b> for $type_a
+        impl core::ops::Mul<$type_b> for $type_a
         {
             type Output = Mul<$type_a, $type_b>;
 
@@ -282,7 +282,7 @@ macro_rules! impl_composite {
                 Mul($type_a(self.0 * other.0), $type_b(1.0))
             }
         }
-        impl std::ops::Mul<$type_a> for $type_b
+        impl core::ops::Mul<$type_a> for $type_b
         {
             type Output = Mul<$type_b, $type_a>;
 
@@ -290,7 +290,7 @@ macro_rules! impl_composite {
                 Mul($type_b(self.0 * other.0), $type_a(1.0))
             }
         }
-        impl std::ops::Div<$type_b> for $type_a
+        impl core::ops::Div<$type_b> for $type_a
         {
             type Output = Div<$type_a, $type_b>;
 
@@ -298,7 +298,7 @@ macro_rules! impl_composite {
                 Div($type_a(self.0 / other.0), $type_b(1.0))
             }
         }
-        impl std::ops::Div<$type_a> for $type_b
+        impl core::ops::Div<$type_a> for $type_b
         {
             type Output = Div<$type_b, $type_a>;
 
