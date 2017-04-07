@@ -14,11 +14,8 @@ pub type Meters = Meter;
 pub type Metre = Meter;
 pub type Metres = Meter;
 
-impl_basic_ops!(Meter);
-impl_div_same!(Meter);
-impl_scalar_ops!(Meter);
+impl_full_unit!(Meter);
 impl_unit_debug!(Meter => "m");
-impl_partial_ord!(Meter);
 
 impl_from_cf!(AU        <===>          149597870700.0     Meter     );
 impl_from_cf!(Kilometer <===>                 1_000.0     Meter     );
@@ -40,11 +37,8 @@ pub type Kilometers = Kilometer;
 pub type Kilometre = Kilometer;
 pub type Kilometres = Kilometer;
 
-impl_basic_ops!(Kilometer);
-impl_div_same!(Kilometer);
-impl_scalar_ops!(Kilometer);
+impl_full_unit!(Kilometer);
 impl_unit_debug!(Kilometer => "km");
-impl_partial_ord!(Kilometer);
 
 impl_from_cf!(AU        <===>                 149597870.70 Kilometer );
 impl_from_cf!(Mile      <===>                     1.609344 Kilometer );
@@ -65,11 +59,8 @@ pub type Centimeters = Centimeter;
 pub type Centimetre = Centimeter;
 pub type Centimetres = Centimeter;
 
-impl_basic_ops!(Centimeter);
-impl_div_same!(Centimeter);
-impl_scalar_ops!(Centimeter);
+impl_full_unit!(Centimeter);
 impl_unit_debug!(Centimeter => "cm");
-impl_partial_ord!(Centimeter);
 
 impl_from_cf!(Centimeter <===>                 10.00 Millimeter);
 impl_from_cf!(Centimeter <===>             10_000.00 Micrometer);
@@ -89,11 +80,8 @@ pub type Millimeters = Millimeter;
 pub type Millimetre = Millimeter;
 pub type Millimetres = Millimeter;
 
-impl_basic_ops!(Millimeter);
-impl_div_same!(Millimeter);
-impl_scalar_ops!(Millimeter);
+impl_full_unit!(Millimeter);
 impl_unit_debug!(Millimeter => "mm");
-impl_partial_ord!(Millimeter);
 
 impl_from_cf!(Millimeter <===>             1_000.0 Micrometer);
 impl_from_cf!(Millimeter <===>         1_000_000.0 Nanometer );
@@ -112,11 +100,8 @@ pub type Micrometers = Micrometer;
 pub type Micrometre = Micrometer;
 pub type Micrometres = Micrometer;
 
-impl_basic_ops!(Micrometer);
-impl_div_same!(Micrometer);
-impl_scalar_ops!(Micrometer);
+impl_full_unit!(Micrometer);
 impl_unit_debug!(Micrometer => "um");
-impl_partial_ord!(Micrometer);
 
 impl_from_cf!(Micrometer <===>              1_000.0 Nanometer );
 impl_from_cf!(Micrometer <===>          1_000_000.0 Picometer );
@@ -135,11 +120,8 @@ pub type Nanometre = Nanometer;
 pub type Nanometres = Nanometer;
 
 
-impl_basic_ops!(Nanometer);
-impl_div_same!(Nanometer);
-impl_scalar_ops!(Nanometer);
+impl_full_unit!(Nanometer);
 impl_unit_debug!(Nanometer => "um");
-impl_partial_ord!(Nanometer);
 
 impl_from_cf!(Nanometer  <===>                  1000.0 Picometer );
 impl_from_cf!(Nanometer  <===>               1000000.0 Femtometer);
@@ -156,11 +138,8 @@ pub type Picometers = Picometer;
 pub type Picometre = Picometer;
 pub type Picometres = Picometer;
 
-impl_basic_ops!(Picometer);
-impl_div_same!(Picometer);
-impl_scalar_ops!(Picometer);
+impl_full_unit!(Picometer);
 impl_unit_debug!(Picometer => "pm");
-impl_partial_ord!(Picometer);
 
 impl_from_cf!(Picometer  <===>                     1000.0 Femtometer);
 impl_from_cf!(Inch       <===>              25400000000.0 Picometer );
@@ -176,11 +155,8 @@ pub type Femtometers = Femtometer;
 pub type Femtometre = Femtometer;
 pub type Femtometres = Femtometer;
 
-impl_basic_ops!(Femtometer);
-impl_div_same!(Femtometer);
-impl_scalar_ops!(Femtometer);
+impl_full_unit!(Femtometer);
 impl_unit_debug!(Femtometer => "fm");
-impl_partial_ord!(Femtometer);
 
 impl_from_cf!(Inch       <===>              25400000000000.0 Femtometer);
 impl_from_cf!(Foot       <===>             304800000000000.0 Femtometer);

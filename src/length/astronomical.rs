@@ -12,11 +12,8 @@ use composite::UnitName;
 pub struct AU(pub f64);
 pub type AUs = AU;
 
-impl_basic_ops!(AU);
-impl_div_same!(AU);
-impl_scalar_ops!(AU);
+impl_full_unit!(AU);
 impl_unit_debug!(AU => "AU");
-impl_partial_ord!(AU);
 
 impl_from_cf!(AU <===>      92955807.27302553 Mile);
 impl_from_cf!(AU <===>  163602220800.52493    Yard);
@@ -28,11 +25,8 @@ impl_from_cf!(AU <===> 5889679948818.898      Inch);
 pub struct Lightyear(pub f64);
 pub type Lightyears = Lightyear;
 
-impl_basic_ops!(Lightyear);
-impl_div_same!(Lightyear);
-impl_scalar_ops!(Lightyear);
+impl_full_unit!(Lightyear);
 impl_unit_debug!(Lightyear => "ly");
-impl_partial_ord!(Lightyear);
 
 impl_from_cf!(Lightyear <===>                        63241.07         AU);
 impl_from_cf!(Lightyear <===>                9460729412789.648 Kilometer);

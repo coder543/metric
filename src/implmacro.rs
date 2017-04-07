@@ -322,6 +322,15 @@ macro_rules! impl_basic_ops {
     }
 }
 
+macro_rules! impl_full_unit {
+    ($impl_type:tt) => {
+        impl_basic_ops!($impl_type);
+        impl_div_same!($impl_type);
+        impl_scalar_ops!($impl_type);
+        impl_partial_ord!($impl_type);
+    }
+}
+
 macro_rules! impl_scalar_ops {
     ($impl_type:tt) => {
         impl_mul_scalar!($impl_type);
