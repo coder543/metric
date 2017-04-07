@@ -223,6 +223,7 @@ macro_rules! impl_composite_base {
                 self.0
             }
         }
+
         impl<T, U> core::ops::Mul<Mul<T, U>> for $type_a
             where T: Copy + Unit,
         {
@@ -232,6 +233,8 @@ macro_rules! impl_composite_base {
                 Mul($type_a(other.0.inner() * self.0), Mul(T::new(1.0), other.1))
             }
         }
+        //TODO: implement inverse
+
         impl<T, U> core::ops::Mul<Div<T, U>> for $type_a
             where T: Copy + Unit,
         {
@@ -241,21 +244,24 @@ macro_rules! impl_composite_base {
                 Mul($type_a(other.0.inner() * self.0), Div(T::new(1.0), other.1))
             }
         }
+        //TODO: implement inverse
+
         impl<T, U> core::ops::Div<Mul<T, U>> for $type_a
         {
             type Output = Div<$type_a, Mul<T, U>>;
 
             fn div(self, other: Mul<T, U>) -> Self::Output {
-                Div(self, other)
+                Div(self, other) //TODO: need to reduce other
             }
         }
+        //TODO: implement inverse
 
         impl<T, U> core::ops::Div<Div<T, U>> for $type_a
         {
             type Output = Div<$type_a, Div<T, U>>;
 
             fn div(self, other: Div<T, U>) -> Self::Output {
-                Div(self, other)
+                Div(self, other) //TODO: need to reduce other
             }
         }
         impl<T, U> core::ops::Div<$type_a> for Div<T, U>
@@ -388,6 +394,11 @@ macro_rules! impl_unit_debug {
         }
     };
     ($impl_type:tt => $unitstr:expr, $unitstr_plural:expr) => {
+        impl UnitName for $impl_type {
+            fn get_unit(&self) -> &'static str {
+                return $unitstr;
+            }
+        }
         impl fmt::Debug for $impl_type {
             fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
                 if self.0 == 1.0 {
