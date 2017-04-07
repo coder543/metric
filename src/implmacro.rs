@@ -215,18 +215,16 @@ macro_rules! impl_divassign_scalar {
 
 macro_rules! impl_composite_base {
     ($type_a:tt) => {
-        impl New for $type_a {
+        impl Unit for $type_a {
             fn new(val: f64) -> Self {
                 $type_a(val)
             }
-        }
-        impl Tuple for $type_a {
             fn inner(self) -> f64 {
                 self.0
             }
         }
         impl<T, U> core::ops::Mul<Mul<T, U>> for $type_a
-            where T: Copy + New + Tuple,
+            where T: Copy + Unit,
         {
             type Output = Mul<$type_a, Mul<T, U>>;
 
@@ -235,7 +233,7 @@ macro_rules! impl_composite_base {
             }
         }
         impl<T, U> core::ops::Mul<Div<T, U>> for $type_a
-            where T: Copy + New + Tuple,
+            where T: Copy + Unit,
         {
             type Output = Mul<$type_a, Div<T, U>>;
 
@@ -261,7 +259,7 @@ macro_rules! impl_composite_base {
             }
         }
         impl<T, U> core::ops::Div<$type_a> for Div<T, U>
-            where T: New + Tuple
+            where T: Unit
         {
             type Output = Div<T, Mul<U, $type_a>>;
 
@@ -378,9 +376,14 @@ macro_rules! impl_through {
 
 macro_rules! impl_unit_debug {
     ($impl_type:tt => $unitstr:expr) => {
+        impl UnitName for $impl_type {
+            fn get_name() -> &'static str {
+                return $unitstr;
+            }
+        }
         impl fmt::Debug for $impl_type {
             fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-                write!(f, $unitstr, self.0)
+                write!(f, "{}{}", self.0, $unitstr)
             }
         }
     };
@@ -388,9 +391,9 @@ macro_rules! impl_unit_debug {
         impl fmt::Debug for $impl_type {
             fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
                 if self.0 == 1.0 {
-                    write!(f, $unitstr, self.0)
+                    write!(f, "{}{}", self.0, $unitstr)
                 } else {
-                    write!(f, $unitstr_plural, self.0)
+                    write!(f, "{}{}", self.0, $unitstr_plural)
                 }
             }
         }

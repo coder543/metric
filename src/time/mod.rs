@@ -1,5 +1,7 @@
 use core::{self, fmt};
 
+use composite::UnitName;
+
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
 pub struct Second(pub f64);

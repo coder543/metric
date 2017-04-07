@@ -4,6 +4,8 @@ use core::{self, fmt};
 
 use length::imperial::*;
 
+use composite::UnitName;
+
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
 #[derive(Clone, Copy)]
 pub struct AU(pub f64);
@@ -19,3 +21,19 @@ impl_from_cf!(AU <===>      92955807.27302553 Mile);
 impl_from_cf!(AU <===>  163602220800.52493    Yard);
 impl_from_cf!(AU <===>  490806662401.5748     Foot);
 impl_from_cf!(AU <===> 5889679948818.898      Inch);
+
+/// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.
+#[derive(Clone, Copy)]
+pub struct Lightyear(pub f64);
+pub type Lightyears = Lightyear;
+
+impl_basic_ops!(Lightyear);
+impl_div_same!(Lightyear);
+impl_scalar_ops!(Lightyear);
+impl_unit_debug!(Lightyear => "{}ly");
+impl_partial_ord!(Lightyear);
+
+impl_from_cf!(Lightyear <===>      92955807.27302553 Mile);
+impl_from_cf!(Lightyear <===>  163602220800.52493    Yard);
+impl_from_cf!(Lightyear <===>  490806662401.5748     Foot);
+impl_from_cf!(Lightyear <===> 5889679948818.898      Inch);

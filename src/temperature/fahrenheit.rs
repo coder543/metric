@@ -2,6 +2,8 @@
 
 use core::{self, fmt};
 
+use composite::UnitName;
+
 use temperature::Celsius;
 use temperature::Kelvin;
 

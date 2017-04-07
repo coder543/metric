@@ -2,6 +2,8 @@
 
 use core::{self, fmt};
 
+use composite::UnitName;
+
 use mass::imperial::{Ounce, Pound, Ton as ITon};
 
 /// A newtype that wraps around `f64` and provides convenience functions for unit-aware and type-safe manipulation.

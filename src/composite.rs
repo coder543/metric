@@ -16,6 +16,15 @@ use temperature::kelvin::*;
 
 use core;
 
+pub trait Unit {
+    fn new(val: f64) -> Self;
+    fn inner(self) -> f64;
+}
+
+pub trait UnitName {
+    fn get_name() -> &'static str;
+}
+
 #[derive(Copy, Clone, Debug)]
 pub struct Mul<T, U>(pub T, pub U);
 
@@ -24,8 +33,8 @@ pub struct Div<T, U>(pub T, pub U);
 
 
 impl<T, U, W, X> core::ops::Mul<Mul<T, U>> for Mul<W, X>
-    where W: Copy + New + Tuple,
-          T: Copy + New + Tuple,
+    where W: Copy + Unit,
+          T: Copy + Unit,
 {
     type Output = Mul<W, Mul<X, Mul<T, U>>>;
 
@@ -35,8 +44,8 @@ impl<T, U, W, X> core::ops::Mul<Mul<T, U>> for Mul<W, X>
 }
 
 impl<T, U, W, X> core::ops::Mul<Div<T, U>> for Mul<W, X>
-    where W: Copy + New + Tuple,
-          T: Copy + New + Tuple,
+    where W: Copy + Unit,
+          T: Copy + Unit,
 {
     type Output = Mul<W, Mul<X, Div<T, U>>>;
 
@@ -46,8 +55,8 @@ impl<T, U, W, X> core::ops::Mul<Div<T, U>> for Mul<W, X>
 }
 
 impl<T, U, W, X> core::ops::Mul<Mul<T, U>> for Div<W, X>
-    where W: Copy + New + Tuple,
-          T: Copy + New + Tuple,
+    where W: Copy + Unit,
+          T: Copy + Unit,
 {
     type Output = Mul<W, Mul<T, Div<U, X>>>;
 
@@ -57,8 +66,8 @@ impl<T, U, W, X> core::ops::Mul<Mul<T, U>> for Div<W, X>
 }
 
 impl<T, U, W, X> core::ops::Mul<Div<T, U>> for Div<W, X>
-    where W: Copy + New + Tuple,
-          T: Copy + New + Tuple,
+    where W: Copy + Unit,
+          T: Copy + Unit,
 {
     type Output = Mul<W, Div<T, Mul<X, U>>>;
 
@@ -69,8 +78,8 @@ impl<T, U, W, X> core::ops::Mul<Div<T, U>> for Div<W, X>
 
 
 impl<T, U, W, X> core::ops::Div<Mul<T, U>> for Mul<W, X>
-    where W: Copy + New + Tuple,
-          T: Copy + New + Tuple,
+    where W: Copy + Unit,
+          T: Copy + Unit,
 {
     type Output = Mul<W, Div<X, Mul<T, U>>>;
 
@@ -80,8 +89,8 @@ impl<T, U, W, X> core::ops::Div<Mul<T, U>> for Mul<W, X>
 }
 
 impl<T, U, W, X> core::ops::Div<Div<T, U>> for Mul<W, X>
-    where W: Copy + New + Tuple,
-          T: Copy + New + Tuple,
+    where W: Copy + Unit,
+          T: Copy + Unit,
 {
     type Output = Mul<W, Mul<X, Div<U, T>>>;
 
@@ -91,8 +100,8 @@ impl<T, U, W, X> core::ops::Div<Div<T, U>> for Mul<W, X>
 }
 
 impl<T, U, W, X> core::ops::Div<Mul<T, U>> for Div<W, X>
-    where W: Copy + New + Tuple,
-          T: Copy + New + Tuple,
+    where W: Copy + Unit,
+          T: Copy + Unit,
 {
     type Output = Div<W, Mul<X, Mul<T, U>>>;
 
@@ -102,8 +111,8 @@ impl<T, U, W, X> core::ops::Div<Mul<T, U>> for Div<W, X>
 }
 
 impl<T, U, W, X> core::ops::Div<Div<T, U>> for Div<W, X>
-    where W: Copy + New + Tuple,
-          T: Copy + New + Tuple,
+    where W: Copy + Unit,
+          T: Copy + Unit,
 {
     type Output = Mul<W, Div<U, Mul<T, X>>>;
 
@@ -131,14 +140,6 @@ impl<T, U> core::ops::Sub for Div<T, U>
     fn sub(self, other: Div<T, U>) -> Self::Output {
         return Div(self.0 - other.0, self.1);
     }
-}
-
-pub trait New {
-    fn new(val: f64) -> Self;
-}
-
-pub trait Tuple {
-    fn inner(self) -> f64;
 }
 
 impl_composite_base!(AU);
