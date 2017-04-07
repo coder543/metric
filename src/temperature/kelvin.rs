@@ -12,7 +12,7 @@ use temperature::Celsius;
 pub struct Kelvin(pub f64);
 
 impl_basic_ops!(Kelvin);
-impl_unit_debug!(Kelvin => "{}K");
+impl_unit_debug!(Kelvin => "K");
 impl_partial_ord!(Kelvin);
 
 //since Kelvin is an absolute unit, unlike Celsius and Fahrenheit, we support scalar multiplication and division

@@ -12,7 +12,7 @@ use temperature::Kelvin;
 pub struct Celsius(pub f64);
 
 impl_basic_ops!(Celsius);
-impl_unit_debug!(Celsius => "{}°C");
+impl_unit_debug!(Celsius => "°C");
 impl_partial_ord!(Celsius);
 
 impl_from!(Fahrenheit => Celsius, |f| (f -  32.) * 5. / 9.);

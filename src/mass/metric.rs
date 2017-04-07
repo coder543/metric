@@ -14,7 +14,7 @@ pub type Tons = Ton;
 impl_basic_ops!(Ton);
 impl_div_same!(Ton);
 impl_scalar_ops!(Ton);
-impl_unit_debug!(Ton => "{}mT");
+impl_unit_debug!(Ton => "mT");
 impl_partial_ord!(Ton);
 
 impl_from_cf!(Ton <===>          1.102311 ITon);
@@ -33,7 +33,7 @@ pub type Kilograms = Kilogram;
 impl_basic_ops!(Kilogram);
 impl_div_same!(Kilogram);
 impl_scalar_ops!(Kilogram);
-impl_unit_debug!(Kilogram => "{}kg");
+impl_unit_debug!(Kilogram => "kg");
 impl_partial_ord!(Kilogram);
 
 impl_from_cf!(Kilogram <===>     1000.0     Gram );
@@ -51,7 +51,7 @@ pub type Grams = Gram;
 impl_basic_ops!(Gram);
 impl_div_same!(Gram);
 impl_scalar_ops!(Gram);
-impl_unit_debug!(Gram => "{}g");
+impl_unit_debug!(Gram => "g");
 impl_partial_ord!(Gram);
 
 impl_from_cf!(Gram  <===>    100.0  Centigram);
@@ -68,7 +68,7 @@ pub type Centigrams = Centigram;
 impl_basic_ops!(Centigram);
 impl_div_same!(Centigram);
 impl_scalar_ops!(Centigram);
-impl_unit_debug!(Centigram => "{}cg");
+impl_unit_debug!(Centigram => "cg");
 impl_partial_ord!(Centigram);
 
 impl_from_cf!(Centigram <===>    10.00000 Milligram);
@@ -84,7 +84,7 @@ pub type Milligrams = Milligram;
 impl_basic_ops!(Milligram);
 impl_div_same!(Milligram);
 impl_scalar_ops!(Milligram);
-impl_unit_debug!(Milligram => "{}mg");
+impl_unit_debug!(Milligram => "mg");
 impl_partial_ord!(Milligram);
 
 impl_from_cf!(Pound     <===> 453592.3700 Milligram);
