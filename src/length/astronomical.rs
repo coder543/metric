@@ -42,6 +42,7 @@ impl_from_cf!(Lightyear <===>          9460729412789648000.0  Millimeter);
 impl_from_cf!(Lightyear <===>       9460729412789648000000.0  Micrometer);
 impl_from_cf!(Lightyear <===>    9460729412789648000000000.0   Picometer);
 impl_from_cf!(Lightyear <===> 9460729412789648000000000000.0  Femtometer);
+impl_from_cf!(Lightyear <===>                5878624714659.916      Mile);
 impl_from_cf!(Lightyear <===>            10346379497801454.0        Yard);
 impl_from_cf!(Lightyear <===>            31039138493404360.0        Foot);
 impl_from_cf!(Lightyear <===>           372469661920852352.0        Inch);
