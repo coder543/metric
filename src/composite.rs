@@ -143,6 +143,7 @@ impl<T, U> core::ops::Sub for Div<T, U>
 }
 
 impl_composite_base!(AU);
+impl_composite_base!(Lightyear);
 impl_composite_base!(Kilometer);
 impl_composite_base!(Meter);
 impl_composite_base!(Centimeter);
@@ -333,6 +334,26 @@ impl_composite!(AU, Year);
 impl_composite!(AU, Decade);
 impl_composite!(AU, Century);
 impl_composite!(AU, Millennium);
+
+impl_composite!(Lightyear, Fahrenheit);
+impl_composite!(Lightyear, Celsius);
+impl_composite!(Lightyear, Kelvin);
+impl_composite!(Lightyear, Ounce);
+impl_composite!(Lightyear, Pound);
+impl_composite!(Lightyear, ITon);
+impl_composite!(Lightyear, MTon);
+impl_composite!(Lightyear, Kilogram);
+impl_composite!(Lightyear, Gram);
+impl_composite!(Lightyear, Centigram);
+impl_composite!(Lightyear, Milligram);
+impl_composite!(Lightyear, Second);
+impl_composite!(Lightyear, Minute);
+impl_composite!(Lightyear, Hour);
+impl_composite!(Lightyear, Day);
+impl_composite!(Lightyear, Year);
+impl_composite!(Lightyear, Decade);
+impl_composite!(Lightyear, Century);
+impl_composite!(Lightyear, Millennium);
 
 impl_composite!(Inch, Fahrenheit);
 impl_composite!(Inch, Celsius);
