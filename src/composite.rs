@@ -25,11 +25,13 @@ pub trait UnitName {
     fn get_unit(&self) -> &'static str;
 }
 
-#[derive(Copy, Clone, Debug)]
-pub struct Mul<T, U>(pub T, pub U);
+use core::marker::PhantomData;
 
 #[derive(Copy, Clone, Debug)]
-pub struct Div<T, U>(pub T, pub U);
+pub struct Mul<T, U>(pub T, pub PhantomData<U>);
+
+#[derive(Copy, Clone, Debug)]
+pub struct Div<T, U>(pub T, pub PhantomData<U>);
 
 impl<T, U> Unit for Mul<T, U>
     where T: Unit,
@@ -37,7 +39,7 @@ impl<T, U> Unit for Mul<T, U>
 {
     #[inline(always)]
     fn new(val: f64) -> Mul<T, U> {
-        Mul(T::new(val), U::new(1.0))
+        Mul(T::new(val), PhantomData)
     }
     #[inline(always)]
     fn inner(self) -> f64 {
@@ -51,7 +53,7 @@ impl<T, U> Unit for Div<T, U>
 {
     #[inline(always)]
     fn new(val: f64) -> Div<T, U> {
-        Div(T::new(val), U::new(1.0))
+        Div(T::new(val), PhantomData)
     }
 
     #[inline(always)]
@@ -104,8 +106,7 @@ impl<T, U, W, X> core::ops::Mul<Mul<T, U>> for Mul<W, X>
     type Output = Mul<W, Mul<X, Mul<T, U>>>;
 
     fn mul(self, other: Mul<T, U>) -> Self::Output {
-        Mul(W::new(self.0.inner() * other.0.inner()),
-            Mul(self.1, Mul(T::new(1.0), other.1)))
+        Mul(W::new(self.0.inner() * other.0.inner()), PhantomData)
     }
 }
 
@@ -116,8 +117,7 @@ impl<T, U, W, X> core::ops::Mul<Div<T, U>> for Mul<W, X>
     type Output = Mul<W, Mul<X, Div<T, U>>>;
 
     fn mul(self, other: Div<T, U>) -> Self::Output {
-        Mul(W::new(self.0.inner() * other.0.inner()),
-            Mul(self.1, Div(T::new(1.0), other.1)))
+        Mul(W::new(self.0.inner() * other.0.inner()), PhantomData)
     }
 }
 
@@ -128,8 +128,7 @@ impl<T, U, W, X> core::ops::Mul<Mul<T, U>> for Div<W, X>
     type Output = Mul<W, Mul<T, Div<U, X>>>;
 
     fn mul(self, other: Mul<T, U>) -> Self::Output {
-        Mul(W::new(self.0.inner() * other.0.inner()),
-            Mul(T::new(1.0), Div(other.1, self.1)))
+        Mul(W::new(self.0.inner() * other.0.inner()), PhantomData)
     }
 }
 
@@ -140,8 +139,7 @@ impl<T, U, W, X> core::ops::Mul<Div<T, U>> for Div<W, X>
     type Output = Mul<W, Div<T, Mul<X, U>>>;
 
     fn mul(self, other: Div<T, U>) -> Self::Output {
-        Mul(W::new(self.0.inner() * other.0.inner()),
-            Div(T::new(1.0), Mul(self.1, other.1)))
+        Mul(W::new(self.0.inner() * other.0.inner()), PhantomData)
     }
 }
 
@@ -153,8 +151,7 @@ impl<T, U, W, X> core::ops::Div<Mul<T, U>> for Mul<W, X>
     type Output = Mul<W, Div<X, Mul<T, U>>>;
 
     fn div(self, other: Mul<T, U>) -> Self::Output {
-        Mul(W::new(self.0.inner() / other.0.inner()),
-            Div(self.1, Mul(T::new(1.0), other.1)))
+        Mul(W::new(self.0.inner() / other.0.inner()), PhantomData)
     }
 }
 
@@ -165,8 +162,7 @@ impl<T, U, W, X> core::ops::Div<Div<T, U>> for Mul<W, X>
     type Output = Mul<W, Mul<X, Div<U, T>>>;
 
     fn div(self, other: Div<T, U>) -> Self::Output {
-        Mul(W::new(self.0.inner() / other.0.inner()),
-            Mul(self.1, Div(other.1, T::new(1.0))))
+        Mul(W::new(self.0.inner() / other.0.inner()), PhantomData)
     }
 }
 
@@ -177,8 +173,7 @@ impl<T, U, W, X> core::ops::Div<Mul<T, U>> for Div<W, X>
     type Output = Div<W, Mul<X, Mul<T, U>>>;
 
     fn div(self, other: Mul<T, U>) -> Self::Output {
-        Div(W::new(self.0.inner() / other.0.inner()),
-            Mul(self.1, Mul(T::new(1.0), other.1)))
+        Div(W::new(self.0.inner() / other.0.inner()), PhantomData)
     }
 }
 
@@ -189,8 +184,7 @@ impl<T, U, W, X> core::ops::Div<Div<T, U>> for Div<W, X>
     type Output = Mul<W, Div<U, Mul<T, X>>>;
 
     fn div(self, other: Div<T, U>) -> Self::Output {
-        Mul(W::new(self.0.inner() / other.0.inner()),
-            Div(other.1, Mul(T::new(1.0), self.1)))
+        Mul(W::new(self.0.inner() / other.0.inner()), PhantomData)
     }
 }
 

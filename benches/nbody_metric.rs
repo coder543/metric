@@ -17,16 +17,18 @@ struct MetricNBody {
     mass: Kilogram,
 }
 
+use std::marker::PhantomData;
+
 ///Meter per Second^2
 type MPSS = Div<Meter, Mul<Second, Second>>;
-const MPSS_ZERO: MPSS = Div(Meter(0.0), Mul(Second(1.0), Second(1.0)));
+const MPSS_ZERO: MPSS = Div(Meter(0.0), PhantomData);
 
 #[derive(Copy, Clone, Debug)]
 struct Accel2D(MPSS, MPSS);
 
 ///Meter per Second
 type MPS = Div<Meter, Second>;
-const MPS_ZERO: MPS = Div(Meter(0.0), Second(1.0));
+const MPS_ZERO: MPS = Div(Meter(0.0), PhantomData);
 
 #[derive(Copy, Clone, Debug)]
 struct Velocity2D(MPS, MPS);
@@ -70,7 +72,7 @@ const MetricNBodies: [MetricNBody; 4] = [MetricNBody {
                                    }];
 
 lazy_static! {
-    static ref G: Mul<Newton, Mul<Meter, Div<Meter, Mul<Kilogram, Kilogram>>>> = Mul(Newton::new(6.674e-11), Mul(Meter(1.0), Div(Meter(1.0), Mul(Kilogram(1.0), Kilogram(1.0)))));
+    static ref G: Mul<Newton, Mul<Meter, Div<Meter, Mul<Kilogram, Kilogram>>>> = Mul(Newton::new(6.674e-11), PhantomData);
 }
 
 pub fn metric_nbody() {
@@ -100,8 +102,8 @@ pub fn metric_nbody() {
             //integrate acceleration into velocity
             let Velocity2D(Vx, Vy) = bodies[a].velocity;
             let Accel2D(Ax, Ay) = bodies[a].accel;
-            let Vx1: MPS = Ax.0 / Ax.1.divide_right(Second(0.1));
-            let Vy1: MPS = Ay.0 / Ay.1.divide_right(Second(0.1));
+            let Vx1: MPS = Ax.0 / Second(0.1);
+            let Vy1: MPS = Ay.0 / Second(0.1);
             bodies[a].velocity = Velocity2D(Vx + Vx1, Vy + Vy1);
             //integrate velocity into position
             let Velocity2D(Vx, Vy) = bodies[a].velocity;

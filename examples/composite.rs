@@ -15,9 +15,9 @@ fn calc_accel<Time>(speed1: MPH, speed2: MPH, timediff: Time) -> Div<Meter, Mul<
     //types
     //diff.0: Mile
     //diff.1: Hour
-    //therefore, using ::from is very safe. Rust will only let you
+    //therefore, using ::from is safe. Rust will only let you
     //use ::from on a value of appropriate type. No chance of misconversion.
-    let diff = Meter::from(diff.0) / Second::from(diff.1);
+    let diff = Meter::from(diff.0) / Second::from(Hour(1.0));
 
     //another way to convert is using .into()
     let timediff: Second = timediff.into();

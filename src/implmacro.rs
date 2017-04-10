@@ -230,7 +230,7 @@ macro_rules! impl_composite_base {
             type Output = Mul<$type_a, Mul<T, U>>;
 
             fn mul(self, other: Mul<T, U>) -> Self::Output {
-                Mul($type_a(other.0.inner() * self.0), Mul(T::new(1.0), other.1))
+                Mul($type_a(other.0.inner() * self.0), PhantomData)
             }
         }
         impl<T, U> core::ops::Mul<$type_a> for Mul<T, U>
@@ -239,7 +239,7 @@ macro_rules! impl_composite_base {
             type Output = Mul<T, Mul<$type_a, U>>;
 
             fn mul(self, other: $type_a) -> Self::Output {
-                Mul(T::new(other.0 * self.0.inner()), Mul($type_a(1.0), self.1))
+                Mul(T::new(other.0 * self.0.inner()), PhantomData)
             }
         }
 
@@ -249,7 +249,7 @@ macro_rules! impl_composite_base {
             type Output = Mul<$type_a, Div<T, U>>;
 
             fn mul(self, other: Div<T, U>) -> Self::Output {
-                Mul($type_a(other.0.inner() * self.0), Div(T::new(1.0), other.1))
+                Mul($type_a(other.0.inner() * self.0), PhantomData)
             }
         }
         impl<T, U> core::ops::Mul<$type_a> for Div<T, U>
@@ -258,7 +258,7 @@ macro_rules! impl_composite_base {
             type Output = Mul<T, Div<$type_a, U>>;
 
             fn mul(self, other: $type_a) -> Self::Output {
-                Mul(T::new(other.0 * self.0.inner()), Div($type_a(1.0), self.1))
+                Mul(T::new(other.0 * self.0.inner()), PhantomData)
             }
         }
 
@@ -268,7 +268,7 @@ macro_rules! impl_composite_base {
             type Output = Div<$type_a, Mul<T, U>>;
 
             fn div(self, other: Mul<T, U>) -> Self::Output {
-                Div($type_a(self.0 / other.0.inner()), Mul(T::new(1.0), other.1)) //TODO: need to reduce other
+                Div($type_a(self.0 / other.0.inner()), PhantomData)
             }
         }
         impl<T, U> core::ops::Div<$type_a> for Mul<T, U>
@@ -277,7 +277,7 @@ macro_rules! impl_composite_base {
             type Output = Mul<T, Div<$type_a, U>>;
 
             fn div(self, other: $type_a) -> Self::Output {
-                Mul(T::new(self.0.inner() / other.0), Div($type_a(1.0), self.1))
+                Mul(T::new(self.0.inner() / other.0), PhantomData)
             }
         }
 
@@ -287,7 +287,7 @@ macro_rules! impl_composite_base {
             type Output = Div<$type_a, Div<T, U>>;
 
             fn div(self, other: Div<T, U>) -> Self::Output {
-                Div($type_a(self.0 / other.0.inner()), Div(T::new(1.0), other.1))
+                Div($type_a(self.0 / other.0.inner()), PhantomData)
             }
         }
         impl<T, U> core::ops::Div<$type_a> for Div<T, U>
@@ -296,7 +296,7 @@ macro_rules! impl_composite_base {
             type Output = Div<T, Mul<$type_a, U>>;
 
             fn div(self, other: $type_a) -> Self::Output {
-                Div(T::new(self.0.inner() / other.0), Mul($type_a(1.0), self.1))
+                Div(T::new(self.0.inner() / other.0), PhantomData)
             }
         }
 
@@ -305,7 +305,7 @@ macro_rules! impl_composite_base {
             type Output = Mul<$type_a, $type_a>;
 
             fn mul(self, other: $type_a) -> Self::Output {
-                Mul($type_a(self.0 * other.0), $type_a(1.0))
+                Mul($type_a(self.0 * other.0), PhantomData)
             }
         }
     }
@@ -318,7 +318,7 @@ macro_rules! impl_composite {
             type Output = Mul<$type_a, $type_b>;
 
             fn mul(self, other: $type_b) -> Self::Output {
-                Mul($type_a(self.0 * other.0), $type_b(1.0))
+                Mul($type_a(self.0 * other.0), PhantomData)
             }
         }
         impl core::ops::Mul<$type_a> for $type_b
@@ -326,7 +326,7 @@ macro_rules! impl_composite {
             type Output = Mul<$type_b, $type_a>;
 
             fn mul(self, other: $type_a) -> Self::Output {
-                Mul($type_b(self.0 * other.0), $type_a(1.0))
+                Mul($type_b(self.0 * other.0), PhantomData)
             }
         }
         impl core::ops::Div<$type_b> for $type_a
@@ -334,7 +334,7 @@ macro_rules! impl_composite {
             type Output = Div<$type_a, $type_b>;
 
             fn div(self, other: $type_b) -> Self::Output {
-                Div($type_a(self.0 / other.0), $type_b(1.0))
+                Div($type_a(self.0 / other.0), PhantomData)
             }
         }
         impl core::ops::Div<$type_a> for $type_b
@@ -342,7 +342,7 @@ macro_rules! impl_composite {
             type Output = Div<$type_b, $type_a>;
 
             fn div(self, other: $type_a) -> Self::Output {
-                Div($type_b(self.0 / other.0), $type_a(1.0))
+                Div($type_b(self.0 / other.0), PhantomData)
             }
         }
     }
