@@ -225,7 +225,7 @@ macro_rules! impl_composite_base {
         }
 
         impl<T, U> core::ops::Mul<Mul<T, U>> for $type_a
-            where T: Copy + Unit,
+            where T: Unit,
         {
             type Output = Mul<$type_a, Mul<T, U>>;
 
@@ -233,10 +233,18 @@ macro_rules! impl_composite_base {
                 Mul($type_a(other.0.inner() * self.0), Mul(T::new(1.0), other.1))
             }
         }
-        //TODO: implement inverse
+        impl<T, U> core::ops::Mul<$type_a> for Mul<T, U>
+            where T: Unit,
+        {
+            type Output = Mul<T, Mul<$type_a, U>>;
+
+            fn mul(self, other: $type_a) -> Self::Output {
+                Mul(T::new(other.0 * self.0.inner()), Mul($type_a(1.0), self.1))
+            }
+        }
 
         impl<T, U> core::ops::Mul<Div<T, U>> for $type_a
-            where T: Copy + Unit,
+            where T: Unit,
         {
             type Output = Mul<$type_a, Div<T, U>>;
 
@@ -244,33 +252,60 @@ macro_rules! impl_composite_base {
                 Mul($type_a(other.0.inner() * self.0), Div(T::new(1.0), other.1))
             }
         }
-        //TODO: implement inverse
+        impl<T, U> core::ops::Mul<$type_a> for Div<T, U>
+            where T: Unit,
+        {
+            type Output = Mul<T, Div<$type_a, U>>;
+
+            fn mul(self, other: $type_a) -> Self::Output {
+                Mul(T::new(other.0 * self.0.inner()), Div($type_a(1.0), self.1))
+            }
+        }
 
         impl<T, U> core::ops::Div<Mul<T, U>> for $type_a
+            where T: Unit
         {
             type Output = Div<$type_a, Mul<T, U>>;
 
             fn div(self, other: Mul<T, U>) -> Self::Output {
-                Div(self, other) //TODO: need to reduce other
+                Div($type_a(self.0 / other.0.inner()), Mul(T::new(1.0), other.1)) //TODO: need to reduce other
             }
         }
-        //TODO: implement inverse
+        impl<T, U> core::ops::Div<$type_a> for Mul<T, U>
+            where T: Unit
+        {
+            type Output = Mul<T, Div<$type_a, U>>;
+
+            fn div(self, other: $type_a) -> Self::Output {
+                Mul(T::new(self.0.inner() / other.0), Div($type_a(1.0), self.1))
+            }
+        }
 
         impl<T, U> core::ops::Div<Div<T, U>> for $type_a
+            where T: Unit
         {
             type Output = Div<$type_a, Div<T, U>>;
 
             fn div(self, other: Div<T, U>) -> Self::Output {
-                Div(self, other) //TODO: need to reduce other
+                Div($type_a(self.0 / other.0.inner()), Div(T::new(1.0), other.1))
             }
         }
         impl<T, U> core::ops::Div<$type_a> for Div<T, U>
             where T: Unit
         {
-            type Output = Div<T, Mul<U, $type_a>>;
+            type Output = Div<T, Mul<$type_a, U>>;
 
             fn div(self, other: $type_a) -> Self::Output {
-                Div(T::new(self.0.inner() / other.0), Mul(self.1, $type_a(1.0)))
+                Div(T::new(self.0.inner() / other.0), Mul($type_a(1.0), self.1))
+            }
+        }
+
+        impl core::ops::Mul for $type_a
+        {
+            type Output = Mul<$type_a, $type_a>;
+
+            fn mul(self, other: $type_a) -> Self::Output {
+                Mul($type_a(self.0 * other.0), $type_a(1.0))
             }
         }
     }

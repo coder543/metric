@@ -29,6 +29,7 @@ fn main() {
     let speed: MPH = Mile(35.) / Hour(0.7);
     let speed2: MPH = Mile(60.) / Hour(0.65);
     let accel = calc_accel(speed, speed2, Second(30.));
+    println!("{}", ::std::mem::size_of::<Div<Mile, Hour>>());
     println!("{:?} -> {:?} is an acceleration of {:?}",
              speed,
              speed2,

@@ -31,6 +31,71 @@ pub struct Mul<T, U>(pub T, pub U);
 #[derive(Copy, Clone, Debug)]
 pub struct Div<T, U>(pub T, pub U);
 
+impl<T, U> Unit for Mul<T, U>
+    where T: Unit,
+          U: Unit
+{
+    #[inline(always)]
+    fn new(val: f64) -> Mul<T, U> {
+        Mul(T::new(val), U::new(1.0))
+    }
+    #[inline(always)]
+    fn inner(self) -> f64 {
+        self.0.inner()
+    }
+}
+
+impl<T, U> Unit for Div<T, U>
+    where T: Unit,
+          U: Unit
+{
+    #[inline(always)]
+    fn new(val: f64) -> Div<T, U> {
+        Div(T::new(val), U::new(1.0))
+    }
+
+    #[inline(always)]
+    fn inner(self) -> f64 {
+        self.0.inner()
+    }
+}
+
+impl<T, U> Div<T, U>
+    where T: Unit,
+          U: Unit
+{
+    #[inline(always)]
+    pub fn multiply(self, other: U) -> T {
+        T::new(self.0.inner() * other.inner())
+    }
+}
+
+#[cfg(feature = "std")]
+impl<T> Mul<T, T>
+    where T: Copy + Unit
+{
+    #[inline(always)]
+    pub fn sqrt(&self) -> T {
+        extern crate std;
+        T::new(self.inner().sqrt())
+    }
+}
+
+impl<T, U> Mul<T, U>
+    where T: Unit,
+          U: Unit
+{
+    #[inline(always)]
+    pub fn divide_right(self, other: U) -> T {
+        T::new(self.0.inner() / other.inner())
+    }
+
+    #[inline(always)]
+    pub fn divide_left(self, other: T) -> U {
+        U::new(self.0.inner() / other.inner())
+    }
+}
+
 
 impl<T, U, W, X> core::ops::Mul<Mul<T, U>> for Mul<W, X>
     where W: Copy + Unit,
@@ -147,6 +212,202 @@ impl<T, U> core::ops::Sub for Div<T, U>
 
     fn sub(self, other: Div<T, U>) -> Self::Output {
         return Div(self.0 - other.0, self.1);
+    }
+}
+
+
+impl<T, U> core::ops::Add for Mul<T, U>
+    where T: core::ops::Add<T, Output = T>
+{
+    type Output = Mul<T, U>;
+
+    fn add(self, other: Mul<T, U>) -> Self::Output {
+        return Mul(self.0 + other.0, self.1);
+    }
+}
+
+impl<T, U> core::ops::Add for Div<T, U>
+    where T: core::ops::Add<T, Output = T>
+{
+    type Output = Div<T, U>;
+
+    fn add(self, other: Div<T, U>) -> Self::Output {
+        return Div(self.0 + other.0, self.1);
+    }
+}
+
+
+impl<T, U> core::ops::Mul<f64> for Mul<T, U>
+    where T: core::ops::Mul<f64, Output = T>
+{
+    type Output = Mul<T, U>;
+
+    fn mul(self, other: f64) -> Self::Output {
+        Mul(self.0 * other, self.1)
+    }
+}
+impl<T, U> core::ops::Mul<Mul<T, U>> for f64
+    where T: core::ops::Mul<f64, Output = T>
+{
+    type Output = Mul<T, U>;
+
+    fn mul(self, other: Mul<T, U>) -> Self::Output {
+        Mul(other.0 * self, other.1)
+    }
+}
+impl<T, U> core::ops::Mul<i64> for Mul<T, U>
+    where T: core::ops::Mul<f64, Output = T>
+{
+    type Output = Mul<T, U>;
+
+    fn mul(self, other: i64) -> Self::Output {
+        Mul(self.0 * other as f64, self.1)
+    }
+}
+impl<T, U> core::ops::Mul<Mul<T, U>> for i64
+    where T: core::ops::Mul<f64, Output = T>
+{
+    type Output = Mul<T, U>;
+
+    fn mul(self, other: Mul<T, U>) -> Self::Output {
+        Mul(other.0 * self as f64, other.1)
+    }
+}
+
+impl<T, U> core::ops::MulAssign<f64> for Mul<T, U>
+    where T: core::ops::MulAssign<f64>
+{
+    fn mul_assign(&mut self, other: f64) {
+        self.0 *= other;
+    }
+}
+impl<T, U> core::ops::MulAssign<i64> for Mul<T, U>
+    where T: core::ops::MulAssign<f64>
+{
+    fn mul_assign(&mut self, other: i64) {
+        self.0 *= other as f64;
+    }
+}
+
+impl<T, U> core::ops::Div<f64> for Mul<T, U>
+    where T: core::ops::Div<f64, Output = T>
+{
+    type Output = Mul<T, U>;
+
+    fn div(self, other: f64) -> Self::Output {
+        Mul(self.0 / other, self.1)
+    }
+}
+impl<T, U> core::ops::Div<i64> for Mul<T, U>
+    where T: core::ops::Div<f64, Output = T>
+{
+    type Output = Mul<T, U>;
+
+    fn div(self, other: i64) -> Self::Output {
+        Mul(self.0 / other as f64, self.1)
+    }
+}
+
+impl<T, U> core::ops::DivAssign<f64> for Mul<T, U>
+    where T: core::ops::DivAssign<f64>
+{
+    fn div_assign(&mut self, other: f64) {
+        self.0 /= other;
+    }
+}
+impl<T, U> core::ops::DivAssign<i64> for Mul<T, U>
+    where T: core::ops::DivAssign<f64>
+{
+    fn div_assign(&mut self, other: i64) {
+        self.0 /= other as f64;
+    }
+}
+
+
+
+impl<T, U> core::ops::Mul<f64> for Div<T, U>
+    where T: core::ops::Mul<f64, Output = T>
+{
+    type Output = Div<T, U>;
+
+    fn mul(self, other: f64) -> Self::Output {
+        Div(self.0 * other, self.1)
+    }
+}
+impl<T, U> core::ops::Mul<Div<T, U>> for f64
+    where T: core::ops::Mul<f64, Output = T>
+{
+    type Output = Div<T, U>;
+
+    fn mul(self, other: Div<T, U>) -> Self::Output {
+        Div(other.0 * self, other.1)
+    }
+}
+impl<T, U> core::ops::Mul<i64> for Div<T, U>
+    where T: core::ops::Mul<f64, Output = T>
+{
+    type Output = Div<T, U>;
+
+    fn mul(self, other: i64) -> Self::Output {
+        Div(self.0 * other as f64, self.1)
+    }
+}
+impl<T, U> core::ops::Mul<Div<T, U>> for i64
+    where T: core::ops::Mul<f64, Output = T>
+{
+    type Output = Div<T, U>;
+
+    fn mul(self, other: Div<T, U>) -> Self::Output {
+        Div(other.0 * self as f64, other.1)
+    }
+}
+
+impl<T, U> core::ops::MulAssign<f64> for Div<T, U>
+    where T: core::ops::MulAssign<f64>
+{
+    fn mul_assign(&mut self, other: f64) {
+        self.0 *= other;
+    }
+}
+impl<T, U> core::ops::MulAssign<i64> for Div<T, U>
+    where T: core::ops::MulAssign<f64>
+{
+    fn mul_assign(&mut self, other: i64) {
+        self.0 *= other as f64;
+    }
+}
+
+impl<T, U> core::ops::Div<f64> for Div<T, U>
+    where T: core::ops::Div<f64, Output = T>
+{
+    type Output = Div<T, U>;
+
+    fn div(self, other: f64) -> Self::Output {
+        Div(self.0 / other, self.1)
+    }
+}
+impl<T, U> core::ops::Div<i64> for Div<T, U>
+    where T: core::ops::Div<f64, Output = T>
+{
+    type Output = Div<T, U>;
+
+    fn div(self, other: i64) -> Self::Output {
+        Div(self.0 / other as f64, self.1)
+    }
+}
+
+impl<T, U> core::ops::DivAssign<f64> for Div<T, U>
+    where T: core::ops::DivAssign<f64>
+{
+    fn div_assign(&mut self, other: f64) {
+        self.0 /= other;
+    }
+}
+impl<T, U> core::ops::DivAssign<i64> for Div<T, U>
+    where T: core::ops::DivAssign<f64>
+{
+    fn div_assign(&mut self, other: i64) {
+        self.0 /= other as f64;
     }
 }
 
