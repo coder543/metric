@@ -71,9 +71,7 @@ const MetricNBodies: [MetricNBody; 4] = [MetricNBody {
                                              mass: Kilogram(2000.0),
                                          }];
 
-lazy_static! {
-    static ref G: Mul<Newton, Mul<Meter, Div<Meter, Mul<Kilogram, Kilogram>>>> = Mul(Newton::new(6.674e-11), PhantomData);
-}
+const G: Mul<Newton, Mul<Meter, Div<Meter, Mul<Kilogram, Kilogram>>>> = Mul(Mul(Kilogram(6.674e-11), PhantomData), PhantomData);
 
 pub fn metric_nbody() {
     let mut bodies = MetricNBodies.to_vec();

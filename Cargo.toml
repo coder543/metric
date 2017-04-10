@@ -9,7 +9,6 @@ name = "bench1"
 
 [dev-dependencies]
 bencher = "0.1.2"
-lazy_static = "0.2.6"
 
 [features]
 default = ["std"]

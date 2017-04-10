@@ -1,9 +1,6 @@
 #[macro_use]
 extern crate bencher;
 
-#[macro_use]
-extern crate lazy_static;
-
 use bencher::Bencher;
 
 mod nbody_raw;
