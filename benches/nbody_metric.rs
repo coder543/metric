@@ -42,34 +42,34 @@ impl Position2D {
         let &Position2D(x2, y2) = other;
         let xd = x2 - x1;
         let yd = y2 - y1;
-        (xd, yd, (xd*xd + yd*yd).sqrt())
+        (xd, yd, (xd * xd + yd * yd).sqrt())
     }
 }
 
 const MetricNBodies: [MetricNBody; 4] = [MetricNBody {
-                                       position: Position2D(Meter(1500.0), Meter(2500.0)),
-                                       accel: Accel2D(MPSS_ZERO, MPSS_ZERO),
-                                       velocity: Velocity2D(MPS_ZERO, MPS_ZERO),
-                                       mass: Kilogram(2000.0),
-                                   },
-                                   MetricNBody {
-                                       position: Position2D(Meter(3500.0), Meter(500.0)),
-                                       accel: Accel2D(MPSS_ZERO, MPSS_ZERO),
-                                       velocity: Velocity2D(MPS_ZERO, MPS_ZERO),
-                                       mass: Kilogram(2000.0),
-                                   },
-                                   MetricNBody {
-                                       position: Position2D(Meter(200.0), Meter(4500.0)),
-                                       accel: Accel2D(MPSS_ZERO, MPSS_ZERO),
-                                       velocity: Velocity2D(MPS_ZERO, MPS_ZERO),
-                                       mass: Kilogram(2000.0),
-                                   },
-                                   MetricNBody {
-                                       position: Position2D(Meter(-1500.0), Meter(750.0)),
-                                       accel: Accel2D(MPSS_ZERO, MPSS_ZERO),
-                                       velocity: Velocity2D(MPS_ZERO, MPS_ZERO),
-                                       mass: Kilogram(2000.0),
-                                   }];
+                                             position: Position2D(Meter(1500.0), Meter(2500.0)),
+                                             accel: Accel2D(MPSS_ZERO, MPSS_ZERO),
+                                             velocity: Velocity2D(MPS_ZERO, MPS_ZERO),
+                                             mass: Kilogram(2000.0),
+                                         },
+                                         MetricNBody {
+                                             position: Position2D(Meter(3500.0), Meter(500.0)),
+                                             accel: Accel2D(MPSS_ZERO, MPSS_ZERO),
+                                             velocity: Velocity2D(MPS_ZERO, MPS_ZERO),
+                                             mass: Kilogram(2000.0),
+                                         },
+                                         MetricNBody {
+                                             position: Position2D(Meter(200.0), Meter(4500.0)),
+                                             accel: Accel2D(MPSS_ZERO, MPSS_ZERO),
+                                             velocity: Velocity2D(MPS_ZERO, MPS_ZERO),
+                                             mass: Kilogram(2000.0),
+                                         },
+                                         MetricNBody {
+                                             position: Position2D(Meter(-1500.0), Meter(750.0)),
+                                             accel: Accel2D(MPSS_ZERO, MPSS_ZERO),
+                                             velocity: Velocity2D(MPS_ZERO, MPS_ZERO),
+                                             mass: Kilogram(2000.0),
+                                         }];
 
 lazy_static! {
     static ref G: Mul<Newton, Mul<Meter, Div<Meter, Mul<Kilogram, Kilogram>>>> = Mul(Newton::new(6.674e-11), PhantomData);
@@ -90,7 +90,7 @@ pub fn metric_nbody() {
                 let Ma = bodies[a].mass;
                 let Mb = bodies[b].mass;
                 let (Dx, Dy, dist) = La.dist(&Lb);
-                let force: Newton = G.divide_right((dist * dist)/(Ma * Mb));
+                let force: Newton = G.divide_right((dist * dist) / (Ma * Mb));
                 let Fx: Newton = force * (Dx / Dy);
                 let Fy: Newton = force * (Dy / Dx);
                 let Ax: MPSS = Fx.divide_left(Ma);

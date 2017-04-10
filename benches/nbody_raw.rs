@@ -19,7 +19,7 @@ impl Raw2D {
         let &Raw2D(x2, y2) = other;
         let xd = x2 - x1;
         let yd = y2 - y1;
-        (xd, yd, (xd*xd + yd*yd).sqrt())
+        (xd, yd, (xd * xd + yd * yd).sqrt())
     }
 }
 
@@ -75,11 +75,11 @@ pub fn raw_nbody() {
             //integrate acceleration into velocity
             let Raw2D(Vx, Vy) = bodies[a].velocity;
             let Raw2D(Ax, Ay) = bodies[a].accel;
-            bodies[a].velocity = Raw2D(Vx + Ax*0.1, Vy + Ay*0.1);
+            bodies[a].velocity = Raw2D(Vx + Ax * 0.1, Vy + Ay * 0.1);
             //integrate velocity into position
             let Raw2D(Vx, Vy) = bodies[a].velocity;
             let Raw2D(x, y) = bodies[a].position;
-            bodies[a].position = Raw2D(x + Vx*0.1, y + Vy*0.1);
+            bodies[a].position = Raw2D(x + Vx * 0.1, y + Vy * 0.1);
         }
     }
 }
