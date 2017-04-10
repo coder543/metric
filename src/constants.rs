@@ -16,5 +16,5 @@ pub const EARTH: PlanetInfo = PlanetInfo {
     name: "Earth",
     mass: Kilogram(5.9722e24),
     dist_from_sun: AU(1.0),
-    radius: Kilometer(6371.0)
+    radius: Kilometer(6371.0),
 };
