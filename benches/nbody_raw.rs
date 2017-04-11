@@ -48,6 +48,7 @@ const RawNBodies: [RawNBody; 4] = [RawNBody {
                                        mass: 2000.0,
                                    }];
 
+#[inline(never)]
 pub fn raw_nbody() {
     let mut bodies = RawNBodies.to_vec();
     for _ in 0..10000 {

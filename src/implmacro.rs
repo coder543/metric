@@ -219,7 +219,7 @@ macro_rules! impl_composite_base {
             fn new(val: f64) -> Self {
                 $type_a(val)
             }
-            fn inner(self) -> f64 {
+            fn inner(&self) -> f64 {
                 self.0
             }
         }
@@ -430,6 +430,12 @@ macro_rules! impl_unit_debug {
             fn get_unit(&self) -> &'static str {
                 return $unitstr;
             }
+            fn get_unit_static() -> &'static str {
+                return $unitstr;
+            }
+            fn write_unit_static(f: &mut fmt::Formatter) -> fmt::Result {
+                write!(f, $unitstr)
+            }
         }
         impl fmt::Debug for $impl_type {
             fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -441,6 +447,12 @@ macro_rules! impl_unit_debug {
         impl UnitName for $impl_type {
             fn get_unit(&self) -> &'static str {
                 return $unitstr;
+            }
+            fn get_unit_static() -> &'static str {
+                return $unitstr;
+            }
+            fn write_unit_static(f: &mut fmt::Formatter) -> fmt::Result {
+                write!(f, $unitstr)
             }
         }
         impl fmt::Debug for $impl_type {

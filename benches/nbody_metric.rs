@@ -8,6 +8,7 @@ use self::metric::length::metric::Meter;
 use self::metric::mass::metric::Kilogram;
 use self::metric::composite::*;
 
+const G: Mul<Newton, Mul<Meter, Div<Meter, Mul<Kilogram, Kilogram>>>> = Mul(Mul(Kilogram(6.674e-11), PhantomData), PhantomData);
 
 #[derive(Copy, Clone)]
 struct MetricNBody {
@@ -71,8 +72,7 @@ const MetricNBodies: [MetricNBody; 4] = [MetricNBody {
                                              mass: Kilogram(2000.0),
                                          }];
 
-const G: Mul<Newton, Mul<Meter, Div<Meter, Mul<Kilogram, Kilogram>>>> = Mul(Mul(Kilogram(6.674e-11), PhantomData), PhantomData);
-
+#[inline(never)]
 pub fn metric_nbody() {
     let mut bodies = MetricNBodies.to_vec();
     for _ in 0..10000 {
@@ -100,8 +100,8 @@ pub fn metric_nbody() {
             //integrate acceleration into velocity
             let Velocity2D(Vx, Vy) = bodies[a].velocity;
             let Accel2D(Ax, Ay) = bodies[a].accel;
-            let Vx1: MPS = Ax.0 / Second(0.1);
-            let Vy1: MPS = Ay.0 / Second(0.1);
+            let Vx1: MPS = Ax.integrate(Second(0.1));
+            let Vy1: MPS = Ay.integrate(Second(0.1));
             bodies[a].velocity = Velocity2D(Vx + Vx1, Vy + Vy1);
             //integrate velocity into position
             let Velocity2D(Vx, Vy) = bodies[a].velocity;

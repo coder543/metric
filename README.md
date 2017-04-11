@@ -3,7 +3,7 @@ To run the examples, simply clone the repo, then
     cargo run --example temp
 
 or
-    
+
     cargo run --example length
 
 to build and run the temperature or length examples, respectively.

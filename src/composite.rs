@@ -15,41 +15,102 @@ use temperature::fahrenheit::*;
 use temperature::kelvin::*;
 
 use core;
+use core::marker::PhantomData;
+use core::fmt;
 
 pub trait Unit {
     fn new(val: f64) -> Self;
-    fn inner(self) -> f64;
+    fn inner(&self) -> f64;
 }
 
 pub trait UnitName {
     fn get_unit(&self) -> &'static str;
+    fn get_unit_static() -> &'static str;
+    fn write_unit_static(&mut fmt::Formatter) -> fmt::Result;
 }
 
-use core::marker::PhantomData;
-
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone)]
 pub struct Mul<T, U>(pub T, pub PhantomData<U>);
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone)]
 pub struct Div<T, U>(pub T, pub PhantomData<U>);
 
+impl<T, U> UnitName for Mul<T, U>
+    where T: Unit + UnitName,
+          U: UnitName
+{
+    fn get_unit(&self) -> &'static str {
+        "mul-composite unit"
+    }
+    fn get_unit_static() -> &'static str {
+        "mul-composite unit"
+    }
+    fn write_unit_static(f: &mut fmt::Formatter) -> fmt::Result {
+        T::write_unit_static(f)?;
+        write!(f, "*")?;
+        U::write_unit_static(f)
+    }
+}
+
+impl<T, U> fmt::Debug for Mul<T, U>
+    where T: Unit + UnitName,
+          U: UnitName
+{
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{} ", self.inner())?;
+        T::write_unit_static(f)?;
+        write!(f, "*")?;
+        U::write_unit_static(f)
+    }
+}
+
+impl<T, U> UnitName for Div<T, U>
+    where T: Unit + UnitName,
+          U: UnitName
+{
+    fn get_unit(&self) -> &'static str {
+        "div-composite unit"
+    }
+    fn get_unit_static() -> &'static str {
+        "div-composite unit"
+    }
+    fn write_unit_static(f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "(")?;
+        T::write_unit_static(f)?;
+        write!(f, ")/(")?;
+        U::write_unit_static(f)?;
+        write!(f, ")")
+    }
+}
+
+impl<T, U> fmt::Debug for Div<T, U>
+    where T: Unit + UnitName,
+          U: UnitName
+{
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{} (", self.inner())?;
+        T::write_unit_static(f)?;
+        write!(f, ")/(")?;
+        U::write_unit_static(f)?;
+        write!(f, ")")
+    }
+}
+
 impl<T, U> Unit for Mul<T, U>
-    where T: Unit,
-          U: Unit
+    where T: Unit
 {
     #[inline(always)]
     fn new(val: f64) -> Mul<T, U> {
         Mul(T::new(val), PhantomData)
     }
     #[inline(always)]
-    fn inner(self) -> f64 {
+    fn inner(&self) -> f64 {
         self.0.inner()
     }
 }
 
 impl<T, U> Unit for Div<T, U>
-    where T: Unit,
-          U: Unit
+    where T: Unit
 {
     #[inline(always)]
     fn new(val: f64) -> Div<T, U> {
@@ -57,7 +118,7 @@ impl<T, U> Unit for Div<T, U>
     }
 
     #[inline(always)]
-    fn inner(self) -> f64 {
+    fn inner(&self) -> f64 {
         self.0.inner()
     }
 }
@@ -69,6 +130,16 @@ impl<T, U> Div<T, U>
     #[inline(always)]
     pub fn multiply(self, other: U) -> T {
         T::new(self.0.inner() * other.inner())
+    }
+}
+
+impl<T, U> Div<T, Mul<U, U>>
+    where T: Unit,
+          U: Unit
+{
+    #[inline(always)]
+    pub fn integrate(self, other: U) -> Div<T, U> {
+        Div(T::new(self.0.inner() * other.inner()), PhantomData)
     }
 }
 
