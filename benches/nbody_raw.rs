@@ -64,7 +64,7 @@ pub fn raw_nbody() {
                 let Ma = bodies[a].mass;
                 let Mb = bodies[b].mass;
                 let (Dx, Dy, dist) = La.dist(&Lb);
-                let force = G_RAW * (Ma * Mb) / (dist * dist);
+                let force = G_RAW / ((dist * dist) / (Ma * Mb));
                 let Fx = force * (Dx / Dy);
                 let Fy = force * (Dy / Dx);
                 let Ax = Fx / Ma;
