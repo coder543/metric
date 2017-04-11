@@ -20,6 +20,8 @@ use core::fmt;
 
 pub trait Unit {
     fn new(val: f64) -> Self;
+
+    //TODO: make inner() unsafe?
     fn inner(&self) -> f64;
 }
 
