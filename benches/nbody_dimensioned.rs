@@ -3,6 +3,7 @@
 extern crate dimensioned as dim;
 
 use self::dim::si;
+use self::dim::Sqrt;
 
 #[derive(Copy, Clone)]
 struct MetricNBody {
@@ -31,7 +32,7 @@ impl Position2D {
         let &Position2D(x2, y2) = other;
         let xd = x2 - x1;
         let yd = y2 - y1;
-        (xd, yd, (xd * xd + yd * yd).value_unsafe.sqrt() * si::M)
+        (xd, yd, (xd * xd + yd * yd).sqrt())
     }
 }
 
@@ -62,7 +63,7 @@ const MetricNBodies: [MetricNBody; 4] = [MetricNBody {
 
 #[inline(never)]
 pub fn dimensioned_nbody() {
-    let G = 6.674e-11 * si::KG * si::M * si::M / (si::KG * si::KG);
+    let G = 6.674e-11 * si::N * si::M * si::M / (si::KG * si::KG);
     let mut bodies = MetricNBodies.to_vec();
     for _ in 0..10000 {
         //calculate accelerations
@@ -77,21 +78,11 @@ pub fn dimensioned_nbody() {
                 let Ma = bodies[a].mass;
                 let Mb = bodies[b].mass;
                 let (Dx, Dy, dist) = La.dist(&Lb);
-
-                //even confirming that `dist` *is* a Meter, we cannot successfully
-                //multiply a Meter against itself to get a Meter^2.
-                let dist: si::Meter<f64> = dist;
-                let di2: si::Meter2<f64> = dist * dist;
-
-                let ma2 = Ma * Mb; //can't constrain because Kilogram2 does not exist
-
-                //because of the above problems, there's absolutely no way this line compiles:
-                let force: si::Newton<f64> = G * ma2 / di2;
-                
-                let Fx: si::Newton<f64> = force * (Dx / Dy);
-                let Fy: si::Newton<f64> = force * (Dy / Dx);
-                let Ax: si::MeterPerSecond2<f64> = Fx / Ma;
-                let Ay: si::MeterPerSecond2<f64> = Fy / Ma;
+                let force = G / ((dist * dist) / (Ma * Mb));
+                let Fx = force * (Dx / Dy);
+                let Fy = force * (Dy / Dx);
+                let Ax = Fx / Ma;
+                let Ay = Fy / Ma;
                 bodies[a].accel = Accel2D(bodies[a].accel.0 + Ax, bodies[a].accel.1 + Ay);
             }
         }
