@@ -24,5 +24,5 @@ fn nbody_dimensioned_bench(bench: &mut Bencher) {
     bench.iter(|| dimensioned_nbody())
 }
 
-benchmark_group!(benches, nbody_raw_bench, nbody_metric_bench);
+benchmark_group!(benches, nbody_raw_bench, nbody_metric_bench, nbody_dimensioned_bench);
 benchmark_main!(benches);

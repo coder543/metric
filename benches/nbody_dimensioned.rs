@@ -90,8 +90,8 @@ pub fn dimensioned_nbody() {
             //integrate acceleration into velocity
             let Velocity2D(Vx, Vy) = bodies[a].velocity;
             let Accel2D(Ax, Ay) = bodies[a].accel;
-            let Vx1: si::MeterPerSecond<f64> = Ax * (0.1 * si::S);
-            let Vy1: si::MeterPerSecond<f64> = Ay * (0.1 * si::S);
+            let Vx1 = Ax * (0.1 * si::S);
+            let Vy1 = Ay * (0.1 * si::S);
             bodies[a].velocity = Velocity2D(Vx + Vx1, Vy + Vy1);
             //integrate velocity into position
             let Velocity2D(Vx, Vy) = bodies[a].velocity;
