@@ -12,6 +12,9 @@ use nbody_metric::metric_nbody;
 mod nbody_dimensioned;
 use nbody_dimensioned::dimensioned_nbody;
 
+mod nbody_uom;
+use nbody_uom::uom_nbody;
+
 fn nbody_raw_bench(bench: &mut Bencher) {
     bench.iter(|| raw_nbody())
 }
@@ -24,5 +27,13 @@ fn nbody_dimensioned_bench(bench: &mut Bencher) {
     bench.iter(|| dimensioned_nbody())
 }
 
-benchmark_group!(benches, nbody_raw_bench, nbody_metric_bench, nbody_dimensioned_bench);
+fn nbody_uom_bench(bench: &mut Bencher) {
+    bench.iter(|| uom_nbody())
+}
+
+benchmark_group!(benches,
+                 nbody_raw_bench,
+                 nbody_metric_bench,
+                 nbody_dimensioned_bench,
+                 nbody_uom_bench);
 benchmark_main!(benches);
