@@ -2,14 +2,10 @@
 
 extern crate uom;
 
+use std::marker::PhantomData;
+
 use self::uom::si::Quantity;
 use self::uom::si::f64::*;
-use self::uom::si::acceleration::meter_per_second_squared;
-use self::uom::si::area::square_meter;
-use self::uom::si::length::meter;
-use self::uom::si::mass::kilogram;
-use self::uom::si::time::second;
-use self::uom::si::velocity::meter_per_second;
 use self::uom::typenum::{P3, N1, N2, Z0};
 
 #[derive(Copy, Clone)]
@@ -35,59 +31,71 @@ impl Position2D {
         let &Position2D(x2, y2) = other;
         let xd = x2 - x1;
         let yd = y2 - y1;
-        // `sqrt` not yet implemented. https://github.com/iliekturtles/uom/issues/11
-        (xd, yd, Length::new::<meter>((xd * xd + yd * yd).get(square_meter).sqrt()))
+        (xd, yd, (xd * xd + yd * yd).sqrt())
     }
 }
 
+const NBODIES: [UOMNBody; 4] = [
+    UOMNBody {
+        position: Position2D(
+            Quantity { dimension: PhantomData, units: PhantomData, value: 1500.0, },
+            Quantity { dimension: PhantomData, units: PhantomData, value: 2500.0, }),
+        accel: Accel2D(
+            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, },
+            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
+        velocity: Velocity2D(
+            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, },
+            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
+        mass: Quantity { dimension: PhantomData, units: PhantomData, value: 2000.0, },
+    },
+    UOMNBody {
+        position: Position2D(
+            Quantity { dimension: PhantomData, units: PhantomData, value: 3500.0, },
+            Quantity { dimension: PhantomData, units: PhantomData, value: 500.0, }),
+        accel: Accel2D(
+            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, },
+            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
+        velocity: Velocity2D(
+            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, },
+            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
+        mass: Quantity { dimension: PhantomData, units: PhantomData, value: 2000.0, },
+    },
+    UOMNBody {
+        position: Position2D(
+            Quantity { dimension: PhantomData, units: PhantomData, value: 200.0, },
+            Quantity { dimension: PhantomData, units: PhantomData, value: 4500.0, }),
+        accel: Accel2D(
+            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, },
+            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
+        velocity: Velocity2D(
+            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, },
+            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
+        mass: Quantity { dimension: PhantomData, units: PhantomData, value: 2000.0, },
+    },
+    UOMNBody {
+        position: Position2D(
+            Quantity { dimension: PhantomData, units: PhantomData, value: -1500.0, },
+            Quantity { dimension: PhantomData, units: PhantomData, value: 750.0, }),
+        accel: Accel2D(
+            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, },
+            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
+        velocity: Velocity2D(
+            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, },
+            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
+        mass: Quantity { dimension: PhantomData, units: PhantomData, value: 2000.0, },
+    }];
+// Gravitational constant.
+const G: Quantity<uom::si::ISQ<P3, N1, N2, Z0, Z0, Z0, Z0>, uom::si::SI<f64>, f64> = Quantity { dimension: PhantomData, units: PhantomData, value: 6.674e-11, };
+const ACCELERATION_ZERO: Acceleration = Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, };
+const TIME_STEP: Time = Quantity { dimension: PhantomData, units: PhantomData, value: 0.1, };
+
 #[inline(never)]
 pub fn uom_nbody() {
-    // Can't be `const` currently as `Quantity` members are private and constructor methods are not
-    // `const fn`.
-    let nbodies = [UOMNBody {
-                       position: Position2D(Length::new::<meter>(1500.0), Length::new::<meter>(2500.0)),
-                       accel: Accel2D(Acceleration::new::<meter_per_second_squared>(0.0),
-                                      Acceleration::new::<meter_per_second_squared>(0.0)),
-                       velocity: Velocity2D(Velocity::new::<meter_per_second>(0.0),
-                                            Velocity::new::<meter_per_second>(0.0)),
-                       mass: Mass::new::<kilogram>(2000.0),
-                   },
-                   UOMNBody {
-                       position: Position2D(Length::new::<meter>(3500.0), Length::new::<meter>(500.0)),
-                       accel: Accel2D(Acceleration::new::<meter_per_second_squared>(0.0),
-                                      Acceleration::new::<meter_per_second_squared>(0.0)),
-                       velocity: Velocity2D(Velocity::new::<meter_per_second>(0.0),
-                                            Velocity::new::<meter_per_second>(0.0)),
-                       mass: Mass::new::<kilogram>(2000.0),
-                   },
-                   UOMNBody {
-                       position: Position2D(Length::new::<meter>(200.0), Length::new::<meter>(4500.0)),
-                       accel: Accel2D(Acceleration::new::<meter_per_second_squared>(0.0),
-                                      Acceleration::new::<meter_per_second_squared>(0.0)),
-                       velocity: Velocity2D(Velocity::new::<meter_per_second>(0.0),
-                                            Velocity::new::<meter_per_second>(0.0)),
-                       mass: Mass::new::<kilogram>(2000.0),
-                   },
-                   UOMNBody {
-                       position: Position2D(Length::new::<meter>(-1500.0), Length::new::<meter>(750.0)),
-                       accel: Accel2D(Acceleration::new::<meter_per_second_squared>(0.0),
-                                      Acceleration::new::<meter_per_second_squared>(0.0)),
-                       velocity: Velocity2D(Velocity::new::<meter_per_second>(0.0),
-                                            Velocity::new::<meter_per_second>(0.0)),
-                       mass: Mass::new::<kilogram>(2000.0),
-                   }];
-
-    // Gravitational constant, unnamed quantity constructor still needs to be implemented.
-    // https://github.com/iliekturtles/uom/issues/28
-    let G: Quantity<uom::si::ISQ<P3, N1, N2, Z0, Z0, Z0, Z0>, uom::si::SI<f64>, f64> = unsafe { ::std::mem::transmute(6.674e-11) };
-    let acceleration_zero: Acceleration = Acceleration::new::<meter_per_second_squared>(0.0);
-    let time_step: Time = Time::new::<second>(0.1);
-
-    let mut bodies = nbodies.to_vec();
+    let mut bodies = NBODIES.to_vec();
     for _ in 0..10000 {
         //calculate accelerations
         for a in 0..bodies.len() {
-            bodies[a].accel = Accel2D(acceleration_zero, acceleration_zero);
+            bodies[a].accel = Accel2D(ACCELERATION_ZERO, ACCELERATION_ZERO);
             for b in 0..bodies.len() {
                 if a == b {
                     continue;
@@ -109,11 +117,11 @@ pub fn uom_nbody() {
             //integrate acceleration into velocity
             let Velocity2D(Vx, Vy) = bodies[a].velocity;
             let Accel2D(Ax, Ay) = bodies[a].accel;
-            bodies[a].velocity = Velocity2D(Vx + Ax * time_step, Vy + Ay * time_step);
+            bodies[a].velocity = Velocity2D(Vx + Ax * TIME_STEP, Vy + Ay * TIME_STEP);
             //integrate velocity into position
             let Velocity2D(Vx, Vy) = bodies[a].velocity;
             let Position2D(x, y) = bodies[a].position;
-            bodies[a].position = Position2D(x + Vx * time_step, y + Vy * time_step);
+            bodies[a].position = Position2D(x + Vx * TIME_STEP, y + Vy * TIME_STEP);
         }
     }
 }
