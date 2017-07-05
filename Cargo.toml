@@ -6,6 +6,7 @@ repository = "https://github.com/coder543/metric"
 documentation = "https://docs.rs/metric"
 license = "MIT"
 readme = "README.md"
+description = "zero-cost dimensional analysis for safe, unit-aware numeric computations in Rust"
 
 keywords = ["units", "dimensional", "unit-aware"]
 
