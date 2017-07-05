@@ -3,7 +3,7 @@ authors = ["Josh Leverette <coder543@gmail.com>"]
 name = "metric"
 version = "0.1.0"
 repository = "https://github.com/coder543/metric"
-docs = "https://docs.rs/metric"
+documentation = "https://docs.rs/metric"
 license = "MIT"
 readme = "README.md"
 
