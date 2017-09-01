@@ -8,7 +8,7 @@ license = "MIT"
 readme = "README.md"
 description = "zero-cost dimensional analysis for safe, unit-aware numeric computations in Rust"
 
-keywords = ["units", "dimensional", "unit-aware", "dimensional-analysis", "analysis", "dimensions", "SI", "measurement", "no_std"]
+keywords = ["units", "dimensional", "unit-aware", "dimensional-analysis", "no_std"]
 
 [[bench]]
 harness = false
