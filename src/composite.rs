@@ -28,7 +28,7 @@ pub trait Unit {
 pub trait UnitName {
     fn get_unit(&self) -> &'static str;
     fn get_unit_static() -> &'static str;
-    fn write_unit_static(&mut fmt::Formatter) -> fmt::Result;
+    fn write_unit_static(f: &mut fmt::Formatter) -> fmt::Result;
 }
 
 #[derive(Copy, Clone)]
