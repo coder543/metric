@@ -1,5 +1,5 @@
 #![warn(unused_results)]
-#![deny(future_incompatible,)]
+#![allow(unused_macros)]
 
 #![no_std]
 

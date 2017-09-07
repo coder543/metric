@@ -1,7 +1,7 @@
 [package]
 authors = ["Josh Leverette <coder543@gmail.com>"]
 name = "metric"
-version = "0.1.1"
+version = "0.1.2"
 repository = "https://github.com/coder543/metric"
 documentation = "https://docs.rs/metric"
 license = "MIT"
