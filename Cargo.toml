@@ -17,7 +17,7 @@ name = "bench1"
 [dev-dependencies]
 bencher = "0.1.2"
 dimensioned = "0.6.0"
-uom = "0.14.0"
+uom = "0.16.0"
 
 [features]
 default = ["std"]
