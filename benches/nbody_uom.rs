@@ -38,56 +38,56 @@ impl Position2D {
 const NBODIES: [UOMNBody; 4] = [
     UOMNBody {
         position: Position2D(
-            Quantity { dimension: PhantomData, units: PhantomData, value: 1500.0, },
-            Quantity { dimension: PhantomData, units: PhantomData, value: 2500.0, }),
+            Length { dimension: PhantomData, units: PhantomData, value: 1500.0, },
+            Length { dimension: PhantomData, units: PhantomData, value: 2500.0, }),
         accel: Accel2D(
-            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, },
-            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
+            Acceleration { dimension: PhantomData, units: PhantomData, value: 0.0, },
+            Acceleration { dimension: PhantomData, units: PhantomData, value: 0.0, }),
         velocity: Velocity2D(
-            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, },
-            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
-        mass: Quantity { dimension: PhantomData, units: PhantomData, value: 2000.0, },
+            Velocity { dimension: PhantomData, units: PhantomData, value: 0.0, },
+            Velocity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
+        mass: Mass { dimension: PhantomData, units: PhantomData, value: 2000.0, },
     },
     UOMNBody {
         position: Position2D(
-            Quantity { dimension: PhantomData, units: PhantomData, value: 3500.0, },
-            Quantity { dimension: PhantomData, units: PhantomData, value: 500.0, }),
+            Length { dimension: PhantomData, units: PhantomData, value: 3500.0, },
+            Length { dimension: PhantomData, units: PhantomData, value: 500.0, }),
         accel: Accel2D(
-            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, },
-            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
+            Acceleration { dimension: PhantomData, units: PhantomData, value: 0.0, },
+            Acceleration { dimension: PhantomData, units: PhantomData, value: 0.0, }),
         velocity: Velocity2D(
-            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, },
-            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
-        mass: Quantity { dimension: PhantomData, units: PhantomData, value: 2000.0, },
+            Velocity { dimension: PhantomData, units: PhantomData, value: 0.0, },
+            Velocity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
+        mass: Mass { dimension: PhantomData, units: PhantomData, value: 2000.0, },
     },
     UOMNBody {
         position: Position2D(
-            Quantity { dimension: PhantomData, units: PhantomData, value: 200.0, },
-            Quantity { dimension: PhantomData, units: PhantomData, value: 4500.0, }),
+            Length { dimension: PhantomData, units: PhantomData, value: 200.0, },
+            Length { dimension: PhantomData, units: PhantomData, value: 4500.0, }),
         accel: Accel2D(
-            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, },
-            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
+            Acceleration { dimension: PhantomData, units: PhantomData, value: 0.0, },
+            Acceleration { dimension: PhantomData, units: PhantomData, value: 0.0, }),
         velocity: Velocity2D(
-            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, },
-            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
-        mass: Quantity { dimension: PhantomData, units: PhantomData, value: 2000.0, },
+            Velocity { dimension: PhantomData, units: PhantomData, value: 0.0, },
+            Velocity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
+        mass: Mass { dimension: PhantomData, units: PhantomData, value: 2000.0, },
     },
     UOMNBody {
         position: Position2D(
-            Quantity { dimension: PhantomData, units: PhantomData, value: -1500.0, },
-            Quantity { dimension: PhantomData, units: PhantomData, value: 750.0, }),
+            Length { dimension: PhantomData, units: PhantomData, value: -1500.0, },
+            Length { dimension: PhantomData, units: PhantomData, value: 750.0, }),
         accel: Accel2D(
-            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, },
-            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
+            Acceleration { dimension: PhantomData, units: PhantomData, value: 0.0, },
+            Acceleration { dimension: PhantomData, units: PhantomData, value: 0.0, }),
         velocity: Velocity2D(
-            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, },
-            Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
-        mass: Quantity { dimension: PhantomData, units: PhantomData, value: 2000.0, },
+            Velocity { dimension: PhantomData, units: PhantomData, value: 0.0, },
+            Velocity { dimension: PhantomData, units: PhantomData, value: 0.0, }),
+        mass: Mass { dimension: PhantomData, units: PhantomData, value: 2000.0, },
     }];
 // Gravitational constant.
 const G: Quantity<uom::si::ISQ<P3, N1, N2, Z0, Z0, Z0, Z0>, uom::si::SI<f64>, f64> = Quantity { dimension: PhantomData, units: PhantomData, value: 6.674e-11, };
-const ACCELERATION_ZERO: Acceleration = Quantity { dimension: PhantomData, units: PhantomData, value: 0.0, };
-const TIME_STEP: Time = Quantity { dimension: PhantomData, units: PhantomData, value: 0.1, };
+const ACCELERATION_ZERO: Acceleration = Acceleration { dimension: PhantomData, units: PhantomData, value: 0.0, };
+const TIME_STEP: Time = Time { dimension: PhantomData, units: PhantomData, value: 0.1, };
 
 #[inline(never)]
 pub fn uom_nbody() {
